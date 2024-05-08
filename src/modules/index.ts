@@ -1,15 +1,11 @@
 import { CustomError } from '../error';
 import { LogService } from '../services/log';
-import { SchemaType, PageType } from '../types';
-import { Main } from './main';
+import { SchemaType } from '../types';
 import { findRecursiveFiles } from './searchRecursiveFiles';
 import { readConfigFile } from './readConfigFile';
 import { readFile } from './readFile';
-
-export type inputSchemasType = {
-  fullcontext: string;
-  base: SchemaType;
-};
+import { processComments } from './processComments';
+import { processMarkdown } from './processMarkdown';
 
 type inputType = {
   directory: string;
@@ -18,7 +14,7 @@ type inputType = {
   muteLogsListOfAnalyzedFiles: boolean;
 };
 
-export const index = (input: inputType): inputSchemasType => {
+export const index = (input: inputType): SchemaType[] => {
   LogService.info('docbytest started analysis');
   LogService.info(`running with the following settings "${JSON.stringify(input)}"`);
 
@@ -35,16 +31,15 @@ export const index = (input: inputType): inputSchemasType => {
 
   LogService.info(`starting data extraction from files`);
 
-  let pages: PageType[] = [];
+  let pages: SchemaType[] = [];
 
   files.files.forEach((file) => {
     try {
       const content = readFile(file);
+      pages = pages.concat(processComments(content, config));
 
-      const local = Main.process(content, { file });
-
-      if (local.length) {
-        pages = [...pages, ...local];
+      if (file.endsWith('.md') || file.endsWith('.MD')) {
+        pages = pages.concat(processMarkdown(content, config, file));
       }
     } catch (error: unknown) {
       throw new CustomError(`Error reading file "${file}", error "${error}"`);
@@ -57,16 +52,5 @@ export const index = (input: inputType): inputSchemasType => {
     LogService.warning(`Data extraction completed with ${pages.length} items`);
   }
 
-  return {
-    fullcontext: config.context + '.' + config.name,
-    base: {
-      name: config.name,
-      children: [
-        {
-          title: 'doc endpoints',
-          page: pages
-        }
-      ]
-    }
-  };
+  return pages;
 };
