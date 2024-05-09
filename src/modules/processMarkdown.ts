@@ -24,15 +24,15 @@ const mapImages = ({ content, pathMd }: { content: string; pathMd: string }) => 
     const copyTo = `./public/${newFile}`;
     const replaceTo = `![${primeiraParte}](${getPath() + '/' + newFile})`;
 
-    console.log({ search: searchItem, replaceTo, copyFrom, copyTo });
     return { search: searchItem, replaceTo, copyFrom, copyTo };
   });
 };
 
+const NAME = 'process-markdown';
+
 export const processMarkdown = (contentOrigina: string, config: configFile, pathINewImage: string): SchemaType => {
   let content = contentOrigina;
   let errors: string[] = [];
-  const fullcontext = (config.context + '.' + config.name).split('.');
   const pathMd = pathINewImage.split('/').reverse().slice(1).reverse().join('/');
 
   const result = mapImages({
@@ -43,7 +43,6 @@ export const processMarkdown = (contentOrigina: string, config: configFile, path
 
   result.forEach((item) => {
     content = content.replaceAll(item.search, item.replaceTo);
-    console.log(item.search, item.replaceTo, 'a');
     try {
       fs.copyFileSync(item.copyFrom, item.copyTo);
     } catch (error) {
@@ -56,8 +55,9 @@ export const processMarkdown = (contentOrigina: string, config: configFile, path
   return {
     title: title.title,
     originName: config.name,
+    handlerName: NAME,
     errors,
-    tags: [...fullcontext, ...extraTags],
+    tags: [...extraTags],
     content: [{ markdown: content }]
   };
 };

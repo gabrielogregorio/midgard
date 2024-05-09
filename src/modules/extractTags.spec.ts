@@ -6,7 +6,6 @@ tags: [doc endpoints, other, exemple]
 
 `;
 
-
 const lineWithtopContent = `
 
 example
@@ -14,7 +13,6 @@ example
 tags: [doc endpoints, other, exemple]
 
 `;
-
 
 describe('extracTags', () => {
   it('should extract tags', () => {

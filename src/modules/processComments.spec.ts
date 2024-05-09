@@ -1,7 +1,7 @@
 import { processComments } from './processComments';
 
 const mainInput = `
-  /* doc\n# TitleExample\nvalor1\nvalor2*/
+  /* doc\n# TitleExample\nvalor1\nvalor2\ntags:[localTag]*/
 `;
 
 describe('', () => {
@@ -10,11 +10,14 @@ describe('', () => {
 
     expect(resultEnd).toEqual([
       {
-        tags: ['example', 'tag', 'name'],
+        tags: ['localTag'],
         title: 'TitleExample',
+        errors: [],
+        handlerName: 'process-comments',
+        originName: 'name',
         content: [
           {
-            markdown: '\n# TitleExample\nvalor1\nvalor2'
+            markdown: '\n# TitleExample\nvalor1\nvalor2\ntags:[localTag]'
           }
         ]
       }

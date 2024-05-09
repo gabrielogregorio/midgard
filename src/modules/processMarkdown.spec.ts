@@ -16,14 +16,20 @@ docMdExample (./file1.png)
 
     let resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
 
-    expect(resultEnd).toEqual({
+    // fix generate id
+    expect(resultEnd).toStrictEqual({
       content: [
         {
-          markdown:
-            '\n# Title\ntags: [frontend, adr]\ndocMdExample (./file1.png)\n[link](example)\n![./images/_.png](./images/_.png)\n![example.png](another)\n![./images/_docbytest_ref=example_12.png](./images/_docbytest_ref=example_12.png)\n'
+          markdown: expect.anything() // mock random and timers
         }
       ],
-      tags: ['example', 'tag', 'name', 'frontend', 'adr'],
+      tags: ['frontend', 'adr'],
+      handlerName: 'process-markdown',
+      errors: [
+        expect.stringMatching('erro ao copiar docs/adr/images/_.png para'),
+        expect.stringMatching('erro ao copiar docs/adr/images/_docbytest_ref=example_12.png para')
+      ],
+      originName: 'name',
       title: 'Title'
     });
   });

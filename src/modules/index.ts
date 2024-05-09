@@ -6,6 +6,7 @@ import { readConfigFile } from './readConfigFile';
 import { readFile } from './readFile';
 import { processComments } from './processComments';
 import { processMarkdown } from './processMarkdown';
+import { processSwagger } from './processSwagger';
 
 type inputType = {
   directory: string;
@@ -38,12 +39,23 @@ export const index = (input: inputType): SchemaType[] => {
       const content = readFile(file);
       pages = pages.concat(processComments(content, config));
 
+      const processSwaggerResult = processSwagger(content, config, file);
+      pages = pages.concat(processSwaggerResult);
+
       if (file.endsWith('.md') || file.endsWith('.MD')) {
         pages = pages.concat(processMarkdown(content, config, file));
       }
     } catch (error: unknown) {
       throw new CustomError(`Error reading file "${file}", error "${error}"`);
     }
+  });
+  const fullcontext = (config.context + '.' + config.name).split('.');
+
+  pages = pages.map((page) => {
+    return {
+      ...page,
+      tags: [...fullcontext, ...(page.tags || [])]
+    };
   });
 
   if (pages.length) {

@@ -1,4 +1,4 @@
-const extractDocRequest = /^\s*tags\s*:\s*(.*)\]/gm;
+const extractDocRequest = /^[\s\*]*tags\s*:\s*(.*)\]/gm;
 
 export const extracTags = (content: string): string[] => {
   const results = [...content.matchAll(extractDocRequest)];
