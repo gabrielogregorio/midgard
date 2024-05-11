@@ -37,9 +37,18 @@ export const processMarkdown = (contentOrigina: string, config: configFile, path
 
   const result = mapImages({
     content,
-
     pathMd
   });
+
+  const pathTags = [
+    ...new Set(
+      pathINewImage
+        .replaceAll('.', ' ')
+        .replaceAll('/', ' ')
+        .split(' ')
+        .filter((item) => item.trim())
+    )
+  ];
 
   result.forEach((item) => {
     content = content.replaceAll(item.search, item.replaceTo);
@@ -57,7 +66,7 @@ export const processMarkdown = (contentOrigina: string, config: configFile, path
     originName: config.name,
     handlerName: NAME,
     errors,
-    tags: [...extraTags],
+    tags: [...pathTags, ...extraTags],
     content: [{ markdown: content }]
   };
 };

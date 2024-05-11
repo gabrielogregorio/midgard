@@ -23,7 +23,7 @@ docMdExample (./file1.png)
           markdown: expect.anything() // mock random and timers
         }
       ],
-      tags: ['frontend', 'adr'],
+      tags: ['docs', 'adr', 'file', 'md', 'frontend', 'adr'],
       handlerName: 'process-markdown',
       errors: [
         expect.stringMatching('erro ao copiar docs/adr/images/_.png para'),

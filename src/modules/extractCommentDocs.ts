@@ -13,9 +13,14 @@ export const extractCommentDocs = (content: string): extractCommentDocsReturnTyp
   }
 
   return results.map((value) => {
+    const content = value[2]
+      ?.split('\n')
+      .map((line) => line.trimStart())
+      .join('\n');
+
     return {
       type: value[1],
-      content: value[2]
+      content
     };
   });
 };

@@ -14,5 +14,5 @@ export type SchemaType = {
   tags?: string[];
   content: contentType[];
   originName: string;
-  handlerName: string
+  handlerName: string;
 };
