@@ -10,8 +10,8 @@ import { processSwagger } from './processSwagger';
 
 type inputType = {
   directory: string;
-  bannedPaths: RegExp[];
-  filterFile?: RegExp;
+  bannedPaths: string[];
+  filterFile?: string;
   muteLogsListOfAnalyzedFiles: boolean;
 };
 

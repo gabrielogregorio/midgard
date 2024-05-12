@@ -4,8 +4,8 @@ import { CustomError } from '../error';
 
 type OptionsFindRecursiveFiles = {
   directory: string;
-  bannedPaths: RegExp[];
-  filterFile?: RegExp;
+  bannedPaths: string[];
+  filterFile?: string;
 };
 
 type OptionsFindRecursiveFilesReturn = {
@@ -28,7 +28,7 @@ const findRecursiveFilesInternal = ({ directory, bannedPaths, filterFile }: Opti
       const filePath = path.join(currentDir, file);
       const isDirectory = fs.statSync(filePath).isDirectory();
 
-      const pathIsBanned = bannedPaths.some((regex) => regex.test(filePath));
+      const pathIsBanned = bannedPaths.some((regex) => RegExp(regex).test(filePath));
       if (pathIsBanned) {
         response.bannedPaths.push(filePath);
         return;
@@ -39,7 +39,7 @@ const findRecursiveFilesInternal = ({ directory, bannedPaths, filterFile }: Opti
         return;
       }
 
-      if (filterFile && !filterFile?.test(filePath)) {
+      if (filterFile && !RegExp(filterFile)?.test(filePath)) {
         response.ignoredFiles.push(filePath);
         return;
       }
