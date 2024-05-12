@@ -1,4 +1,4 @@
-const extractDocRequest = /\/\*\s{0,10}(doc[\-\w\d]*)([\s\S]*?)\*\//g;
+const extractDocRequest = /\/\*\s{0,10}(doc)[\n\s]*([\s\S]*?)[\n\s]*\*\//g;
 
 type extractCommentDocsReturnType = {
   content: string;
@@ -13,14 +13,13 @@ export const extractCommentDocs = (content: string): extractCommentDocsReturnTyp
   }
 
   return results.map((value) => {
-    const content = value[2]
-      ?.split('\n')
-      .map((line) => line.trimStart())
-      .join('\n');
+    const contentBase = value[2]?.split('\n');
+
+    const content = contentBase.map((line) => line.trim()).join('\n');
 
     return {
       type: value[1],
-      content
+      content: content
     };
   });
 };

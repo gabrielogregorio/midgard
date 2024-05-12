@@ -37,7 +37,7 @@ export const index = (input: inputType): SchemaType[] => {
   files.files.forEach((file) => {
     try {
       const content = readFile(file);
-      pages = pages.concat(processComments(content, config));
+      pages = pages.concat(processComments(content, config, file));
 
       const processSwaggerResult = processSwagger(content, config, file);
       pages = pages.concat(processSwaggerResult);

@@ -45,10 +45,10 @@ export const processSwagger = (contentOriginal: string, config: configFile, file
     const markdownTitle = description || summary;
 
     return {
-      tags: ['swagger', 'endpoint', ...tags],
+      tags: ['swagger', 'endpoint', method, path, ...tags],
       originName: config.name,
       handlerName: NAME,
-      content: [{ markdown: markdownTitle }],
+      content: [{ markdown: markdownTitle, type: 'md', subType: 'normal' }],
       title: title as string
     };
   });

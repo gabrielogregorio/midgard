@@ -3,6 +3,8 @@ export type Context = {
 };
 
 type pageDocsMd = {
+  type: 'md' | 'tag';
+  subType: 'dev' | 'normal';
   markdown?: string;
 };
 

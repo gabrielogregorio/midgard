@@ -4,6 +4,8 @@ import { extracTags } from './extractTags';
 import { extractTitleDocs } from './extractTitle';
 import { configFile } from './readConfigFile';
 import fs from 'fs';
+import { generateId } from '../utils/generateId';
+import { extractDevBlocks } from './extractDevBlocks';
 
 const regex = /!\[(.*)?\]\((.*)\)/gm;
 
@@ -12,7 +14,7 @@ const getPath = () => {
 };
 
 const mapImages = ({ content, pathMd }: { content: string; pathMd: string }) => {
-  const allImages = [...new Set([...content.matchAll(regex)])].filter((item) => item[1].startsWith('./'));
+  const allImages = [...new Set([...content.matchAll(regex)])].filter((item) => item[2].startsWith('./'));
   return allImages.map((search) => {
     const searchItem = search[0];
     const primeiraParte = search[1];
@@ -20,7 +22,7 @@ const mapImages = ({ content, pathMd }: { content: string; pathMd: string }) => 
     const copyFrom = path.join(pathMd, itemSearch);
     const extension = itemSearch.split('.').reverse()[0];
 
-    const newFile = `${Math.random()}.${extension}`;
+    const newFile = `${generateId()}.${extension}`;
     const copyTo = `./public/${newFile}`;
     const replaceTo = `![${primeiraParte}](${getPath() + '/' + newFile})`;
 
@@ -59,14 +61,16 @@ export const processMarkdown = (contentOrigina: string, config: configFile, path
     }
   });
 
+  const devAndNormalBlocks = extractDevBlocks(content);
+ 
   const title = extractTitleDocs(content || '');
-  const extraTags = extracTags(content || '');
+  const extraTags = extracTags(devAndNormalBlocks || '');
   return {
     title: title.title,
     originName: config.name,
     handlerName: NAME,
     errors,
-    tags: [...pathTags, ...extraTags],
-    content: [{ markdown: content }]
+    tags: [...pathTags, ...extraTags.tags],
+    content: extraTags.content
   };
 };

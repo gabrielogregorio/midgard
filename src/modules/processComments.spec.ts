@@ -4,21 +4,24 @@ const mainInput = `
   /* doc\n# TitleExample\nvalor1\nvalor2\ntags:[localTag]*/
 `;
 
-describe('', () => {
-  it('', () => {
-    let resultEnd = processComments(mainInput, { context: 'example.tag', name: 'name' });
+describe('processComments', () => {
+  it('processComments', () => {
+    let resultEnd = processComments(mainInput, { context: 'example.tag', name: 'name' }, 'file');
 
     expect(resultEnd).toEqual([
       {
-        tags: ['localTag'],
+        tags: ['file', 'localTag'],
         title: 'TitleExample',
         errors: [],
         handlerName: 'process-comments',
         originName: 'name',
         content: [
           {
-            markdown: '\n# TitleExample\nvalor1\nvalor2\ntags:[localTag]'
-          }
+            markdown: '# TitleExample\nvalor1\nvalor2',
+            type: 'md',
+            subType: 'normal'
+          },
+          { markdown: 'tags:[localTag]', type: 'tag', subType: 'normal' }
         ]
       }
     ]);

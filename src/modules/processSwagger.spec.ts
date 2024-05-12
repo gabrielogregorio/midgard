@@ -19,10 +19,10 @@ describe('', () => {
 
     expect(resultEnd).toEqual([
       {
-        content: [{ markdown: 'Cria uma nova indicação para o atendente' }],
+        content: [{ markdown: 'Cria uma nova indicação para o atendente', type: 'md', subType: 'normal' }],
         originName: 'name',
         handlerName: 'process-swagger',
-        tags: ['swagger', 'endpoint', 'Autogeracação'],
+        tags: ['swagger', 'endpoint', 'post', '/example/otherExample', 'Autogeracação'],
         title: 'title example'
       }
     ]);
@@ -46,10 +46,10 @@ describe('', () => {
 
     expect(resultEnd).toEqual([
       {
-        content: [{ markdown: 'text1\ntext2\n' }],
+        content: [{ markdown: 'text1\ntext2\n', type: 'md', subType: 'normal' }],
         originName: 'name',
         handlerName: 'process-swagger',
-        tags: ['swagger', 'endpoint', 'Autogeracação'],
+        tags: ['swagger', 'endpoint', 'post', '/example/otherExample', 'Autogeracação'],
         title: 'title example'
       }
     ]);

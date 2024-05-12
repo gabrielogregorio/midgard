@@ -2,7 +2,7 @@ import { swaggerParser } from './swaggerParser';
 
 describe('', () => {
   it('', () => {
-    const mainInput = `
+    const newLocal = `
     paths:
     /users/{userId}:
       get:
@@ -34,7 +34,7 @@ describe('', () => {
             description: Unexpected error
 `;
 
-    const data = swaggerParser(mainInput);
+    const data = swaggerParser(newLocal);
     expect(data).toStrictEqual({
       error: '',
       yaml: {
