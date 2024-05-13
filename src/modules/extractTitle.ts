@@ -1,4 +1,4 @@
-const extractDocRequest = /^\s*#\s{1,}(.*)/gm;
+const extractDocRequest = /^\s*#{1,6}\s{1,}(.*)/gm;
 
 type extractCommentDocsReturnType = {
   title: string;

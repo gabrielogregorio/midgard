@@ -62,7 +62,7 @@ export const processMarkdown = (contentOrigina: string, config: configFile, path
   });
 
   const devAndNormalBlocks = extractDevBlocks(content);
- 
+
   const title = extractTitleDocs(content || '');
   const extraTags = extracTags(devAndNormalBlocks || '');
   return {

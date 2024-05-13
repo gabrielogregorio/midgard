@@ -37,13 +37,14 @@ export const index = (input: inputType): SchemaType[] => {
   files.files.forEach((file) => {
     try {
       const content = readFile(file);
-      pages = pages.concat(processComments(content, config, file));
+      pages = pages.concat(processComments(content.toString(), config, file));
 
-      const processSwaggerResult = processSwagger(content, config, file);
+      const processSwaggerResult = processSwagger(content.toString(), config, file);
       pages = pages.concat(processSwaggerResult);
 
       if (file.endsWith('.md') || file.endsWith('.MD')) {
-        pages = pages.concat(processMarkdown(content, config, file));
+        const result = processMarkdown(content.toString(), config, file);
+        pages = pages.concat(result);
       }
     } catch (error: unknown) {
       throw new CustomError(`Error reading file "${file}", error "${error}"`);

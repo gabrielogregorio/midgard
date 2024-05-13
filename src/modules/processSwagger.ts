@@ -42,13 +42,13 @@ export const processSwagger = (contentOriginal: string, config: configFile, file
     const tags = Array.isArray(dataMethod.tags) ? dataMethod.tags : [];
 
     const title = summary || description;
-    const markdownTitle = description || summary;
+    const makdownFinal = summary ? `# ${summary}\n${description}` : description;
 
     return {
       tags: ['swagger', 'endpoint', method, path, ...tags],
       originName: config.name,
       handlerName: NAME,
-      content: [{ markdown: markdownTitle, type: 'md', subType: 'normal' }],
+      content: [{ markdown: makdownFinal, type: 'md', subType: 'normal' }],
       title: title as string
     };
   });

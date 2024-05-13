@@ -58,4 +58,39 @@ tags: [frontend, adr]
       title: 'Title'
     });
   });
+
+  it('processMarkdown', () => {
+    const mainInput = `
+# Title
+
+example markdonw 
+
+with multiples lines
+`;
+
+    const fileInput = './docs/adr/file.md';
+
+    let resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
+
+    // fix generate id
+    expect(resultEnd).toStrictEqual({
+      content: [
+        {
+          markdown: `# Title
+
+example markdonw 
+
+with multiples lines
+`,
+          type: 'md',
+          subType: 'normal'
+        }
+      ],
+      tags: ['docs', 'adr', 'file', 'md'],
+      handlerName: 'process-markdown',
+      errors: [],
+      originName: 'name',
+      title: 'Title'
+    });
+  });
 });

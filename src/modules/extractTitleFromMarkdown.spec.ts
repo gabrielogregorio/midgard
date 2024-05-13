@@ -5,7 +5,6 @@ const line = `
 # example
 `;
 
-
 const lineWithTopContent = `
 example another content
 
@@ -29,5 +28,11 @@ describe('extractTitleDocs', () => {
     const results = extractTitleDocs('any string example # example 2');
 
     expect(results).toEqual({ title: '' });
+  });
+
+  it('should get second title', () => {
+    const results = extractTitleDocs('example\n## title2');
+
+    expect(results).toEqual({ title: 'title2' });
   });
 });

@@ -19,7 +19,7 @@ describe('', () => {
 
     expect(resultEnd).toEqual([
       {
-        content: [{ markdown: 'Cria uma nova indicação para o atendente', type: 'md', subType: 'normal' }],
+        content: [{ markdown: '# title example\nCria uma nova indicação para o atendente', type: 'md', subType: 'normal' }],
         originName: 'name',
         handlerName: 'process-swagger',
         tags: ['swagger', 'endpoint', 'post', '/example/otherExample', 'Autogeracação'],
@@ -46,7 +46,7 @@ describe('', () => {
 
     expect(resultEnd).toEqual([
       {
-        content: [{ markdown: 'text1\ntext2\n', type: 'md', subType: 'normal' }],
+        content: [{ markdown: '# title example\ntext1\ntext2\n', type: 'md', subType: 'normal' }],
         originName: 'name',
         handlerName: 'process-swagger',
         tags: ['swagger', 'endpoint', 'post', '/example/otherExample', 'Autogeracação'],
