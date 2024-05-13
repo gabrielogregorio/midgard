@@ -2,23 +2,7 @@ import { readFile } from './readFile';
 import { ZodError, z } from 'zod';
 import { LogService } from '../services/log';
 import { CustomError } from '../error';
-
-type scrappersType = {
-  bannedPaths: string[];
-  filterFile: string;
-  directory: string;
-  muteLogsListOfAnalyzedFiles: boolean;
-};
-
-type hierarchyType = {
-  tags: string[];
-  title: string;
-};
-
-type configBase = {
-  scrappers: scrappersType[];
-  hierarchy: hierarchyType[];
-};
+import { configBase } from './types';
 
 const scrappersSchema = z.object({
   bannedPaths: z.array(z.string()),

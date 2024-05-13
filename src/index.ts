@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import { SchemaType } from './types';
 import { readBaseConfigFile } from './modules/readBaseConfigFile';
+import { hierarchyType } from './modules/types';
 
 const app = express();
 app.disable('x-powered-by');
@@ -40,7 +41,7 @@ const createFile = (folder: string) => {
   }
 };
 
-let lastSchema: SchemaType[] = [];
+let lastSchema: { schema: SchemaType[]; hierarchy: hierarchyType[] } = { schema: [], hierarchy: [] };
 let status = {
   generateSchema: false,
   error: false
@@ -63,7 +64,10 @@ setInterval(() => {
       fullSchema = fullSchema.concat(index(conf));
     });
 
-    lastSchema = fullSchema;
+    lastSchema = {
+      schema: fullSchema,
+      hierarchy: config.hierarchy
+    };
 
     status.generateSchema = true;
   } catch (error) {
