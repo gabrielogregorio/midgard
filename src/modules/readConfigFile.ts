@@ -1,14 +1,13 @@
 import path from 'path';
+import { ZodError, z } from 'zod';
 import { readFile } from './readFile';
+import { LogService } from '../services/log';
+import { CustomError } from '../error';
 
 export type configFile = {
   context: string;
   name: string;
 };
-
-import { ZodError, z } from 'zod';
-import { LogService } from '../services/log';
-import { CustomError } from '../error';
 
 const User = z.object({
   context: z.string(),

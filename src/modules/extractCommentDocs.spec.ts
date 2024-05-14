@@ -68,7 +68,7 @@ any content //// abc example
   });
 
   it('shoulds returns empty or not found doc comments', () => {
-    const exampleOherCommentsTypes = `
+    const exampleOtherCommentsTypes = `
 
     any content //// abc example
     
@@ -76,7 +76,7 @@ any content //// abc example
     item1
     */
     `;
-    const results = [...exampleOherCommentsTypes.matchAll(extractDocRequest)];
+    const results = [...exampleOtherCommentsTypes.matchAll(extractDocRequest)];
 
     expect(results).toEqual([]);
   });

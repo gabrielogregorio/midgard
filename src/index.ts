@@ -1,14 +1,16 @@
-require('dotenv').config();
-
 import express from 'express';
-import { useCors } from './middlewares/useCors';
-import { useHandleErrors } from './middlewares/useHandleErrors';
-import { index } from './modules';
 import fs from 'fs';
 import path from 'path';
+import { useCors } from './middlewares/useCors';
+import { useHandleErrors } from './middlewares/useHandleErrors';
+import { processHandler } from './modules';
 import { SchemaType } from './types';
 import { readBaseConfigFile } from './modules/readBaseConfigFile';
 import { hierarchyType } from './modules/types';
+import { LogService } from './services/log';
+import { statusCode } from './utils/statusCode';
+
+require('dotenv').config();
 
 const app = express();
 app.disable('x-powered-by');
@@ -42,7 +44,7 @@ const createFile = (folder: string) => {
 };
 
 let lastSchema: { schema: SchemaType[]; hierarchy: hierarchyType[] } = { schema: [], hierarchy: [] };
-let status = {
+const status = {
   generateSchema: false,
   error: false
 };
@@ -61,7 +63,7 @@ setInterval(() => {
 
     let fullSchema: SchemaType[] = [];
     config.scrappers.forEach((conf) => {
-      fullSchema = fullSchema.concat(index(conf));
+      fullSchema = fullSchema.concat(processHandler(conf));
     });
 
     lastSchema = {
@@ -72,25 +74,19 @@ setInterval(() => {
     status.generateSchema = true;
   } catch (error) {
     if (error instanceof Error) {
-      console.error(error);
+      LogService.error(error);
       return;
     }
 
-    console.error(error);
+    LogService.error(error);
   }
 }, TIME_TO_REFRESH_DOCS_IN_MS);
 
-app.get('/', (req, res) => {
-  return res.sendStatus(200);
-});
+app.get('/', (_req, res) => res.sendStatus(statusCode.SUCCESS));
 
-app.get('/schema', (req, res) => {
-  return res.json(lastSchema);
-});
+app.get('/schema', (_req, res) => res.json(lastSchema));
 
-app.get('/status', (req, res) => {
-  return res.json(status);
-});
+app.get('/status', (_req, res) => res.json(status));
 
 app.use(useHandleErrors);
 

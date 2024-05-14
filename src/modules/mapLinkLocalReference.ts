@@ -1,16 +1,16 @@
 import { configFile } from './readConfigFile';
 
-const regex = /(?<!\!)\[(.*)?\]\((.*)\)/gm;
+const regex = /(?<!!)\[(.*)?\]\((.*)\)/gm;
 
 const refFileTags = (itemSearch: string, config: configFile) => {
   const tagsFile = itemSearch
-    .replace(/[\.\s\/]{1,}/g, ' ')
+    .replace(/[\\.\s\\/]{1,}/g, ' ')
     .split(' ')
     .filter((item) => item);
 
-  const defaultConfigfs = (config.context + '.' + config.name).split('.').filter((item) => item);
+  const defaultConfigs = `${config.context}.${config.name}`.split('.').filter((item) => item);
 
-  return [...defaultConfigfs, ...tagsFile];
+  return [...defaultConfigs, ...tagsFile];
 };
 
 const resolveRelativeImage = (search: RegExpExecArray, config: configFile) => {
@@ -23,18 +23,23 @@ const resolveRelativeImage = (search: RegExpExecArray, config: configFile) => {
   return { search: searchItem, replaceTo };
 };
 
-export const mapLinkLocalReference = ({ content, config }: { content: string; config: configFile }) => {
-  const allImages = [...new Set([...content.matchAll(regex)])];
-  let resolved: {
+type mapLinkLocalReferenceReturnType = { content: string; config: configFile };
+
+export const mapLinkLocalReference = ({ content, config }: mapLinkLocalReferenceReturnType) => {
+  const allReferences = [...new Set([...content.matchAll(regex)])];
+
+  const resolved: {
     search: string;
     replaceTo: string;
   }[] = [];
 
-  allImages.forEach((search) => {
-    const isNotLink = !search[2].startsWith('http');
-    if (isNotLink) {
-      resolved.push(resolveRelativeImage(search, config));
+  allReferences.forEach((search) => {
+    const isLink = search[2].startsWith('http');
+    if (isLink) {
+      return;
     }
+
+    resolved.push(resolveRelativeImage(search, config));
   });
 
   return resolved;

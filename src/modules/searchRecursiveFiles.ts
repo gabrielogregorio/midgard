@@ -45,7 +45,6 @@ const findRecursiveFilesInternal = ({ directory, bannedPaths, filterFile }: Opti
       }
 
       response.files.push(filePath);
-      return;
     });
   }
 

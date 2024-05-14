@@ -5,23 +5,23 @@ import { configFile } from './readConfigFile';
 
 const NAME = 'process-comments';
 
-export const processComments = (content: string, config: configFile, file: string): SchemaType[] => {
-  const comments = extractCommentDocs(content);
+export const processComments = (code: string, config: configFile, file: string): SchemaType[] => {
+  const comments = extractCommentDocs(code);
 
-  let resultEnd: SchemaType[] = [];
+  const commentsFounded: SchemaType[] = [];
 
-  comments.forEach((item) => {
-    const result = processMarkdown(item.content, config, file);
+  comments.forEach((comment) => {
+    const markdown = processMarkdown(comment.content, config, file);
 
-    resultEnd.push({
-      title: result.title,
-      originName: result.originName,
-      errors: result.errors,
+    commentsFounded.push({
+      title: markdown.title,
+      originName: markdown.originName,
+      errors: markdown.errors,
       handlerName: NAME,
-      tags: result?.tags,
-      content: result.content
+      tags: markdown?.tags,
+      content: markdown.content
     });
   });
 
-  return resultEnd;
+  return commentsFounded;
 };

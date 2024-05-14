@@ -39,12 +39,9 @@
     "no-unreachable": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-redeclare": "error",
-    "@typescript-eslint/no-implicit-any-catch": "error",
-    "id-length": [2, { "min": 3, "properties": "never" }],
     "@typescript-eslint/no-duplicate-enum-values": "error",
     "@typescript-eslint/no-dynamic-delete": "error",
-    "@typescript-eslint/no-magic-numbers": ["error", { "ignore": [-1, 0, 1] }],
-    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/no-magic-numbers": ["error", { "ignore": [-1, 0, 1, 2] }],
     "@typescript-eslint/naming-convention": [
       "error",
       {
@@ -64,6 +61,7 @@
         }
       }
     ],
+    "id-length": [2, { "min": 3, "properties": "never", "exceptions": ["fs"] }],
     "spellcheck/spell-checker": [
       1,
       {
@@ -72,16 +70,26 @@
         "templates": false,
         "identifiers": true,
         "lang": "en_US",
-        "skipWords": ["href", "enum", "testid", "msg", "nome", "lstatSync", "readdir", "lstat", "docbytest", "tsconfig"],
+        "skipWords": [
+          "href",
+          "enum",
+          "testid",
+          "msg",
+          "req",
+          "yaml",
+          "unlink",
+          "match",
+          "urlencoded",
+          "cors",
+          "nome",
+          "lstatSync",
+          "readdir",
+          "zod",
+          "lstat",
+          "docbytest",
+          "tsconfig"
+        ],
         "minLength": 3
-      }
-    ],
-    "@typescript-eslint/typedef": [
-      "error",
-      {
-        "arrowParameter": true,
-        "variableDeclaration": true,
-        "variableDeclarationIgnoreFunction": true
       }
     ]
   },

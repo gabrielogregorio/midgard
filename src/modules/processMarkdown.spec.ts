@@ -3,7 +3,7 @@ import { processMarkdown } from './processMarkdown';
 
 process.env.PORT = '3333';
 
-let spy = jest.spyOn(generateId, 'generateId');
+const spy = jest.spyOn(generateId, 'generateId');
 spy.mockImplementation(() => 'idMock');
 
 describe('processMarkdown', () => {
@@ -21,7 +21,7 @@ tags: [frontend, adr]
 
     const fileInput = './docs/adr/file.md';
 
-    let resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
+    const resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
 
     // fix generate id
     expect(resultEnd).toStrictEqual({
@@ -51,6 +51,7 @@ tags: [frontend, adr]
       ],
       tags: ['docs', 'adr', 'file', 'md', 'frontend', 'adr'],
       handlerName: 'process-markdown',
+      warning: [],
       errors: [
         'erro ao copiar docs/adr/images/_.png para ./public/idMock.png',
         'erro ao copiar docs/adr/example.png para ./public/idMock.png',
@@ -72,7 +73,7 @@ with multiples lines
 
     const fileInput = './docs/adr/file.md';
 
-    let resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
+    const resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
 
     // fix generate id
     expect(resultEnd).toStrictEqual({
@@ -90,6 +91,7 @@ with multiples lines
       ],
       tags: ['docs', 'adr', 'file', 'md'],
       handlerName: 'process-markdown',
+      warning: [],
       errors: [],
       originName: 'name',
       title: 'Title'

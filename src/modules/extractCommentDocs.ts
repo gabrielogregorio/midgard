@@ -5,21 +5,21 @@ type extractCommentDocsReturnType = {
   type: string;
 };
 
-export const extractCommentDocs = (content: string): extractCommentDocsReturnType[] => {
-  const results = [...content.matchAll(extractDocRequest)];
+export const extractCommentDocs = (code: string): extractCommentDocsReturnType[] => {
+  const comments = [...code.matchAll(extractDocRequest)];
 
-  if (!results.length) {
+  if (!comments.length) {
     return [];
   }
 
-  return results.map((value) => {
-    const contentBase = value[2]?.split('\n');
+  return comments.map((commentMatch) => {
+    const comment = commentMatch[2]?.split('\n');
 
-    const content = contentBase.map((line) => line.trim()).join('\n');
+    const content = comment.map((line) => line.trim()).join('\n');
 
     return {
-      type: value[1],
-      content: content
+      type: commentMatch[1],
+      content
     };
   });
 };
