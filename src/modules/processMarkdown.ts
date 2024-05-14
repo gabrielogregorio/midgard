@@ -1,11 +1,13 @@
 import path from 'path';
-import { SchemaType } from '../types';
+import { SchemaType, codeWithoutLanguageType } from '../types';
 import { extracTags } from './extractTags';
 import { extractTitleDocs } from './extractTitle';
 import { configFile } from './readConfigFile';
 import fs from 'fs';
 import { generateId } from '../utils/generateId';
 import { extractDevBlocks } from './extractDevBlocks';
+import { mapLinkLocalReference } from './mapLinkLocalReference';
+import { detectCodeWithoutLanguage } from './detectCodeWithoutLanguage';
 
 const regex = /!\[(.*)?\]\((.*)\)/gm;
 
@@ -61,13 +63,35 @@ export const processMarkdown = (contentOrigina: string, config: configFile, path
     }
   });
 
+  const resultLinkLocal = mapLinkLocalReference({
+    config,
+    content
+  });
+
+  resultLinkLocal.forEach((item) => {
+    content = content.replaceAll(item.search, item.replaceTo);
+  });
+
   const devAndNormalBlocks = extractDevBlocks(content);
 
   const title = extractTitleDocs(content || '');
   const extraTags = extracTags(devAndNormalBlocks || '');
+
+  let warning: codeWithoutLanguageType[] = [];
+  extraTags.content.forEach((item) => {
+    const result = detectCodeWithoutLanguage(item.markdown || '');
+    if (result.length) {
+      warning.push({
+        code: result.map((item) => item.code),
+        file: pathINewImage,
+        type: 'code-without-language'
+      });
+    }
+  });
   return {
     title: title.title,
     originName: config.name,
+    warning: warning,
     handlerName: NAME,
     errors,
     tags: [...pathTags, ...extraTags.tags],

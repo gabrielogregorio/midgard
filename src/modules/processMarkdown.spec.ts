@@ -13,6 +13,7 @@ describe('processMarkdown', () => {
 tags: [frontend, adr]
   docMdExample (./file1.png)  
 [link](example)
+[example local reference](./myFile.md)
 ![./images/_.png](./images/_.png)
 ![version](./example.png)
 ![./images/_docbytest_ref=example_12.png](./images/_docbytest_ref=example_12.png)
@@ -39,7 +40,8 @@ tags: [frontend, adr]
 
         {
           markdown: `  docMdExample (./file1.png)  
-[link](example)
+[ref.example.tag.name.example]
+[ref.example.tag.name.myFile.md]
 ![./images/_.png](http://localhost:3333/idMock.png)
 ![version](http://localhost:3333/idMock.png)
 ![./images/_docbytest_ref=example_12.png](http://localhost:3333/idMock.png)\n`,

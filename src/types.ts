@@ -10,9 +10,18 @@ type pageDocsMd = {
 
 export type contentType = pageDocsMd;
 
+export type codeWithoutLanguageType = {
+  type: 'code-without-language';
+  file: string;
+  code: string[];
+};
+
+type warningType = codeWithoutLanguageType;
+
 export type SchemaType = {
   title: string;
   errors?: string[];
+  warning?: warningType[];
   tags?: string[];
   content: contentType[];
   originName: string;
