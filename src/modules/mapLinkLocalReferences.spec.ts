@@ -4,7 +4,7 @@ import { configFile } from './readConfigFile';
 
 process.env.PORT = '3333';
 
-let spy = jest.spyOn(generateId, 'generateId');
+const spy = jest.spyOn(generateId, 'generateId');
 spy.mockImplementation(() => 'idMock');
 const config: configFile = {
   context: 'example.tag',

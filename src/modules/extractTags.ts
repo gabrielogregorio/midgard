@@ -1,56 +1,57 @@
 import { SchemaType } from '../types';
-import { returnTypeExtractBlock } from './extractDevBlocks';
+import { extractDevBlocksReturnType } from './extractDevBlocks';
 
-const extractDocRequest = /^[\s\*]*tags\s*:\s*\[*(.*)\]/g;
+const extractDocRequest = /^[\s*]*tags\s*:\s*\[*(.*)\]/g;
 
-type returnType = {
+type extractTagsReturnType = {
   content: SchemaType['content'];
   tags: string[];
 };
 
-export const extracTags = (contentX: returnTypeExtractBlock[]): returnType => {
-  let tags: returnType = {
+export const extractTags = (blocks: extractDevBlocksReturnType[]): extractTagsReturnType => {
+  const tagsReturn: extractTagsReturnType = {
     content: [],
     tags: []
   };
 
-  contentX.forEach((content) => {
+  blocks.forEach((block) => {
     let body = '';
-    content.markdown.split('\n').forEach((line) => {
-      const results = [...line.matchAll(extractDocRequest)];
-      if (!results.length) {
-        body += body ? '\n' + line : line;
+
+    block.markdown.split('\n').forEach((line) => {
+      const matchTags = [...line.matchAll(extractDocRequest)];
+      if (!matchTags.length) {
+        body += body ? `\n${line}` : line;
         return;
       }
 
       if (body) {
-        tags.content.push({
+        tagsReturn.content.push({
           type: 'md',
-          subType: content.type,
+          subType: block.type,
           markdown: body
         });
         body = '';
       }
 
-      const localTags = results[0][1].split(',').map((item) => item.trim());
+      const tags = matchTags[0][1].split(',').map((item) => item.trim());
 
-      tags.tags = tags.tags.concat(localTags);
-      tags.content.push({
+      tagsReturn.tags = tagsReturn.tags.concat(tags);
+      tagsReturn.content.push({
         type: 'tag',
-        subType: content.type,
+        subType: block.type,
         markdown: line
       });
     });
 
     if (body) {
-      tags.content.push({
+      tagsReturn.content.push({
         type: 'md',
-        subType: content.type,
+        subType: block.type,
         markdown: body
       });
       body = '';
     }
   });
 
-  return tags;
+  return tagsReturn;
 };

@@ -5,15 +5,15 @@ type extractCommentDocsReturnType = {
 };
 
 export const extractTitleDocs = (content: string): extractCommentDocsReturnType => {
-  const results = [...content.matchAll(extractDocRequest)];
+  const matchTitle = [...content.matchAll(extractDocRequest)];
 
-  if (!results.length) {
+  if (!matchTitle.length) {
     return {
       title: ''
     };
   }
 
   return {
-    title: results[0][1]
+    title: matchTitle[0][1]
   };
 };

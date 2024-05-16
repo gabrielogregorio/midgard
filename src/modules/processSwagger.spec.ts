@@ -2,6 +2,8 @@ import { processSwagger } from './processSwagger';
 
 const fileInput = './docs/adr/file.md';
 
+const mockContext = { context: 'example.tag', name: 'name' };
+
 describe('', () => {
   it('', () => {
     const mainInput = `
@@ -15,7 +17,7 @@ describe('', () => {
  *  */   
 `;
 
-    let resultEnd = processSwagger(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
+    const resultEnd = processSwagger(mainInput, mockContext, fileInput);
 
     expect(resultEnd).toEqual([
       {
@@ -42,7 +44,7 @@ describe('', () => {
  *  */   
 `;
 
-    let resultEnd = processSwagger(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
+    const resultEnd = processSwagger(mainInput, mockContext, fileInput);
 
     expect(resultEnd).toEqual([
       {
@@ -65,7 +67,7 @@ describe('', () => {
     */
    `;
 
-    let resultEnd = processSwagger(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
+    const resultEnd = processSwagger(mainInput, mockContext, fileInput);
 
     expect(resultEnd).toEqual([]);
   });

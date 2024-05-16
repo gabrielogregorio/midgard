@@ -6,7 +6,7 @@ const mainInput = `
 
 describe('processComments', () => {
   it('processComments', () => {
-    let resultEnd = processComments(mainInput, { context: 'example.tag', name: 'name' }, 'file');
+    const resultEnd = processComments(mainInput, { context: 'example.tag', name: 'name' }, 'file');
 
     expect(resultEnd).toEqual([
       {

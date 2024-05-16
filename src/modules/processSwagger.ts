@@ -7,13 +7,11 @@ const regexGetUtilCommentSwagger = /\/\*\*\n\s*\*\s*@swagger([\s\S]*?\*\/)/gm;
 const NAME = 'process-swagger';
 
 export const processSwagger = (contentOriginal: string, config: configFile, file: string): SchemaType[] => {
-  let content = contentOriginal;
+  const content = contentOriginal;
 
-  const matchs = [...content.matchAll(regexGetUtilCommentSwagger)];
+  const match = [...content.matchAll(regexGetUtilCommentSwagger)];
 
-  const onlyRequestsDocSwaggerIgnoringComponents = matchs.filter((item) => {
-    return item[1].includes('components:') === false;
-  });
+  const onlyRequestsDocSwaggerIgnoringComponents = match.filter((item) => item[1].includes('components:') === false);
 
   if (!onlyRequestsDocSwaggerIgnoringComponents.length) {
     return [];
@@ -32,23 +30,25 @@ export const processSwagger = (contentOriginal: string, config: configFile, file
       };
     }
     const path = Object.keys(result.yaml)[0];
-    const dataPath = result.yaml[path];
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dataPath = result.yaml[path] as any;
 
     const method = Object.keys(dataPath)[0];
     const dataMethod = dataPath[method];
 
-    let description = dataMethod.description ? dataMethod.description : '';
-    let summary = dataMethod.summary ? dataMethod.summary : '';
+    const description = dataMethod.description ? dataMethod.description : '';
+    const summary = dataMethod.summary ? dataMethod.summary : '';
     const tags = Array.isArray(dataMethod.tags) ? dataMethod.tags : [];
 
     const title = summary || description;
-    const makdownFinal = summary ? `# ${summary}\n${description}` : description;
+    const markdownFinal = summary ? `# ${summary}\n${description}` : description;
 
     return {
       tags: ['swagger', 'endpoint', method, path, ...tags],
       originName: config.name,
       handlerName: NAME,
-      content: [{ markdown: makdownFinal, type: 'md', subType: 'normal' }],
+      content: [{ markdown: markdownFinal, type: 'md', subType: 'normal' }],
       title: title as string
     };
   });

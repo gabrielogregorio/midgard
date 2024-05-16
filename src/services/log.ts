@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // https://bluesock.org/~willkg/dev/ansi.html
 const Color = {
   Reset: '\x1b[0m',
@@ -22,6 +23,7 @@ export class LogService {
   private static formatType(logType: logType) {
     return `${logType.toUpperCase()}`;
   }
+
   private static log(logType: logType, ...messages: unknown[]) {
     console.log(
       `${mapColors[logType]}${this.getDate()}  ${this.formatType(logType)}  ${messages

@@ -1,0 +1,40 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: using node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: node:18-alpine
+        entrypoint: corepack
+        args: ['enable']
+
+      - name: node:18-alpine
+        entrypoint: corepack
+        args: ['prepare', 'yarn@4.2.2', '--activate']
+
+      - name: node:18-alpine
+        entrypoint: yarn
+        args: ['set', 'version', '4.2.2']
+
+      - name: install decencies
+        run: yarn
+
+      - name: checking typescript
+        run: yarn test

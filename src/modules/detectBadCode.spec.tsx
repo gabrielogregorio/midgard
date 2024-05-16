@@ -1,6 +1,6 @@
 import { detectCodeWithoutLanguage } from './detectCodeWithoutLanguage';
 
-const texto = `
+const input = `
 \`\`\`ts
 example
 \`\`\`
@@ -23,7 +23,7 @@ other
 
 describe('', () => {
   it('', () => {
-    const result = detectCodeWithoutLanguage(texto);
+    const result = detectCodeWithoutLanguage(input);
 
     expect(result).toEqual([
       {

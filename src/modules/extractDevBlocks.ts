@@ -1,11 +1,12 @@
-export type returnTypeExtractBlock = { markdown: string; type: 'normal' | 'dev' };
+export type extractDevBlocksReturnType = { markdown: string; type: 'normal' | 'dev' };
 
-export const extractDevBlocks = (text: string): returnTypeExtractBlock[] => {
+// eslint-disable-next-line sonarjs/cognitive-complexity
+export const extractDevBlocks = (text: string): extractDevBlocksReturnType[] => {
   let normalText = '';
   let devText = '';
   let startDev = false;
   let startText = true;
-  let returns: returnTypeExtractBlock[] = [];
+  const returns: extractDevBlocksReturnType[] = [];
 
   text.split('\n').forEach((line) => {
     if (line.includes('<!-- dev:start -->')) {
@@ -35,11 +36,11 @@ export const extractDevBlocks = (text: string): returnTypeExtractBlock[] => {
     }
 
     if (startDev) {
-      devText += devText ? '\n' + line : line;
+      devText += devText ? `\n${line}` : line;
     }
 
     if (startText) {
-      normalText += normalText ? '\n' + line : line;
+      normalText += normalText ? `\n${line}` : line;
     }
   });
 

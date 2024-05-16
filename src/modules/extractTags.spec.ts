@@ -1,15 +1,15 @@
-import { returnTypeExtractBlock } from './extractDevBlocks';
-import { extracTags } from './extractTags';
+import { extractDevBlocksReturnType } from './extractDevBlocks';
+import { extractTags } from './extractTags';
 
-describe('extracTags', () => {
+describe('extractTags', () => {
   it('should extract tags', () => {
-    const line: returnTypeExtractBlock[] = [
+    const line: extractDevBlocksReturnType[] = [
       {
         markdown: `up\n\n  \ntags: [doc endpoints, other, exemple]\ndown\ndown2`,
         type: 'normal'
       }
     ];
-    const results = extracTags(line);
+    const results = extractTags(line);
 
     expect(results).toEqual({
       content: [
@@ -22,9 +22,11 @@ describe('extracTags', () => {
   });
 
   it('should extract tags', () => {
-    const lineWithtopContent: returnTypeExtractBlock[] = [{ markdown: `example\ntags: [doc endpoints, other, exemple]`, type: 'normal' }];
+    const lineWithoutContent: extractDevBlocksReturnType[] = [
+      { markdown: `example\ntags: [doc endpoints, other, exemple]`, type: 'normal' }
+    ];
 
-    const results = extracTags(lineWithtopContent);
+    const results = extractTags(lineWithoutContent);
 
     expect(results).toEqual({
       content: [

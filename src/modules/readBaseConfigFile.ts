@@ -1,5 +1,5 @@
-import { readFile } from './readFile';
 import { ZodError, z } from 'zod';
+import { readFile } from './readFile';
 import { LogService } from '../services/log';
 import { CustomError } from '../error';
 import { configBase } from './types';
