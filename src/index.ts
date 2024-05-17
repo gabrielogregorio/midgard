@@ -56,7 +56,7 @@ setInterval(() => {
       return;
     }
 
-    const config = readBaseConfigFile('../config.json');
+    const config = readBaseConfigFile(process.env.CONFIG_FILE as string);
     const publicFolder = './public';
     deleteFile(publicFolder);
     createFile(publicFolder);
