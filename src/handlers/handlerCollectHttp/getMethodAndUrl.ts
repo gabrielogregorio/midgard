@@ -1,4 +1,4 @@
-const regexGetMethodAndUrl = /^(GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|TRACE|PATCH)\s{1,}(.*)\s{1,}HTTP.*/;
+const regexGetMethodAndUrl = /^(GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|TRACE|PATCH)\s{1,}([\S]{1,})/;
 export const getMethodAndUrl = (line: string) => {
   const urlAndMethod = line.match(regexGetMethodAndUrl);
   if (!urlAndMethod) {

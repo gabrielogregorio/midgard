@@ -1,5 +1,5 @@
 import path from 'path';
-import { generateId } from '../utils/generateId';
+import { generateId } from '../../../utils/generateId';
 
 const regex = /!\[(.*)?\]\((.*)\)/gm;
 
@@ -22,7 +22,7 @@ const resolveImages = (search: RegExpExecArray, pathFile: string) => {
   return { search: fullReference, replaceTo, copyFrom, copyTo };
 };
 
-export const mapImages = ({ content, pathFile }: { content: string; pathFile: string }) => {
+export const findImages = ({ content, pathFile }: { content: string; pathFile: string }) => {
   const allImages = [...new Set([...content.matchAll(regex)])];
   const resolved: {
     search: string;

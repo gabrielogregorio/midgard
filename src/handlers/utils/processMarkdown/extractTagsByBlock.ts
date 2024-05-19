@@ -1,16 +1,16 @@
-import { SchemaType } from '../types';
+import { SchemaType } from '../../../types';
 import { extractDevBlocksReturnType } from './extractDevBlocks';
 
 const extractDocRequest = /^[\s*]*tags\s*:\s*\[*(.*)\]/g;
 
 type extractTagsReturnType = {
-  content: SchemaType['content'];
+  blocks: SchemaType['blocks'];
   tags: string[];
 };
 
-export const extractTags = (blocks: extractDevBlocksReturnType[]): extractTagsReturnType => {
+export const extractTagsByBlock = (blocks: extractDevBlocksReturnType[]): extractTagsReturnType => {
   const tagsReturn: extractTagsReturnType = {
-    content: [],
+    blocks: [],
     tags: []
   };
 
@@ -25,7 +25,7 @@ export const extractTags = (blocks: extractDevBlocksReturnType[]): extractTagsRe
       }
 
       if (body) {
-        tagsReturn.content.push({
+        tagsReturn.blocks.push({
           type: 'md',
           subType: block.type,
           markdown: body
@@ -33,10 +33,10 @@ export const extractTags = (blocks: extractDevBlocksReturnType[]): extractTagsRe
         body = '';
       }
 
-      const tags = matchTags[0][1].split(',').map((item) => item.trim());
+      const tags = matchTags[0][1].split(',').map((tag) => tag.trim());
 
       tagsReturn.tags = tagsReturn.tags.concat(tags);
-      tagsReturn.content.push({
+      tagsReturn.blocks.push({
         type: 'tag',
         subType: block.type,
         markdown: line
@@ -44,7 +44,7 @@ export const extractTags = (blocks: extractDevBlocksReturnType[]): extractTagsRe
     });
 
     if (body) {
-      tagsReturn.content.push({
+      tagsReturn.blocks.push({
         type: 'md',
         subType: block.type,
         markdown: body

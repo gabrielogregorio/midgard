@@ -1,4 +1,4 @@
-import * as generateId from '../utils/generateId';
+import * as generateId from '../../../utils/generateId';
 import { processMarkdown } from './processMarkdown';
 
 process.env.PORT = '3333';
@@ -23,9 +23,8 @@ tags: [frontend, adr]
 
     const resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
 
-    // fix generate id
     expect(resultEnd).toStrictEqual({
-      content: [
+      blocks: [
         {
           markdown: `# Title`,
           type: 'md',
@@ -49,15 +48,15 @@ tags: [frontend, adr]
           subType: 'normal'
         }
       ],
-      tags: ['docs', 'adr', 'file', 'md', 'frontend', 'adr'],
-      handlerName: 'process-markdown',
+      tags: ['frontend', 'adr'],
+
       warning: [],
       errors: [
-        'erro ao copiar docs/adr/images/_.png para ./public/idMock.png',
-        'erro ao copiar docs/adr/example.png para ./public/idMock.png',
-        'erro ao copiar docs/adr/images/_docbytest_ref=example_12.png para ./public/idMock.png'
+        'Error on copy image "docs/adr/images/_.png" to "./public/idMock.png"',
+        'Error on copy image "docs/adr/example.png" to "./public/idMock.png"',
+        'Error on copy image "docs/adr/images/_docbytest_ref=example_12.png" to "./public/idMock.png"'
       ],
-      originName: 'name',
+
       title: 'Title'
     });
   });
@@ -75,9 +74,8 @@ with multiples lines
 
     const resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
 
-    // fix generate id
     expect(resultEnd).toStrictEqual({
-      content: [
+      blocks: [
         {
           markdown: `# Title
 
@@ -89,11 +87,11 @@ with multiples lines
           subType: 'normal'
         }
       ],
-      tags: ['docs', 'adr', 'file', 'md'],
-      handlerName: 'process-markdown',
+      tags: [],
+
       warning: [],
       errors: [],
-      originName: 'name',
+
       title: 'Title'
     });
   });

@@ -4,11 +4,10 @@ import { LogService } from '../services/log';
 import { CustomError } from '../error';
 import { configBase } from './types';
 
-const scrappersSchema = z.object({
+const projectsSchema = z.object({
   bannedPaths: z.array(z.string()),
   filterFile: z.string(),
   directory: z.string(),
-  muteLogsListOfAnalyzedFiles: z.boolean()
 });
 
 const hierarchySchema = z.object({
@@ -17,7 +16,7 @@ const hierarchySchema = z.object({
 });
 
 const ConfigSchema = z.object({
-  scrappers: z.array(scrappersSchema),
+  projects: z.array(projectsSchema),
   hierarchy: z.array(hierarchySchema)
 });
 

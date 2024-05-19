@@ -1,4 +1,4 @@
-import { configFile } from './readConfigFile';
+import { configFile } from '../../../modules/readConfigFile';
 
 const regex = /(?<!!)\[(.*)?\]\((.*)\)/gm;
 
@@ -6,9 +6,9 @@ const refFileTags = (itemSearch: string, config: configFile) => {
   const tagsFile = itemSearch
     .replace(/[\\.\s\\/]{1,}/g, ' ')
     .split(' ')
-    .filter((item) => item);
+    .filter((part) => part);
 
-  const defaultConfigs = `${config.context}.${config.name}`.split('.').filter((item) => item);
+  const defaultConfigs = `${config.context}.${config.name}`.split('.').filter((name) => name);
 
   return [...defaultConfigs, ...tagsFile];
 };
@@ -23,9 +23,9 @@ const resolveRelativeImage = (search: RegExpExecArray, config: configFile) => {
   return { search: searchItem, replaceTo };
 };
 
-type mapLinkLocalReferenceReturnType = { content: string; config: configFile };
+type findLocalFileReferencesReturnType = { content: string; config: configFile };
 
-export const mapLinkLocalReference = ({ content, config }: mapLinkLocalReferenceReturnType) => {
+export const findLocalFileReferences = ({ content, config }: findLocalFileReferencesReturnType) => {
   const allReferences = [...new Set([...content.matchAll(regex)])];
 
   const resolved: {

@@ -7,17 +7,16 @@ interface ISwaggerParserReturn<T> {
 
 export const swaggerParser = <T = unknown>(swaggerString: string): ISwaggerParserReturn<T> => {
   try {
-    const swaggerWithoutTrash = swaggerString.split('\n').map(
-      (item) =>
-        item
-          .replace('@swagger', '')
-          .replaceAll('*/', '')
-          .replaceAll('/**', '')
-          .replace(/^\s*\*/g, '') // precisa ser o ultimo
+    const swaggerWithoutTrashCharacters = swaggerString.split('\n').map((line) =>
+      line
+        .replace('@swagger', '')
+        .replaceAll('*/', '')
+        .replaceAll('/**', '')
+        .replace(/^\s*\*/g, '')
     );
 
-    const stringSwaggerFormatted = swaggerWithoutTrash.join('\n');
-    const result = yaml.load(stringSwaggerFormatted);
+    const stringSwaggerAsYaml = swaggerWithoutTrashCharacters.join('\n');
+    const result = yaml.load(stringSwaggerAsYaml);
 
     return { yaml: result as T, error: '' };
   } catch (error) {

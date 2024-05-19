@@ -1,12 +1,14 @@
-import { processComments } from './processComments';
+import { handlerComments } from '.';
 
 const mainInput = `
   /* doc\n# TitleExample\nvalor1\nvalor2\ntags:[localTag]*/
 `;
 
+const fileTags = ['file'];
+
 describe('processComments', () => {
   it('processComments', () => {
-    const resultEnd = processComments(mainInput, { context: 'example.tag', name: 'name' }, 'file');
+    const resultEnd = handlerComments(mainInput, { context: 'example.tag', name: 'name' }, 'file', fileTags);
 
     expect(resultEnd).toEqual([
       {
@@ -15,7 +17,7 @@ describe('processComments', () => {
         errors: [],
         handlerName: 'process-comments',
         originName: 'name',
-        content: [
+        blocks: [
           {
             markdown: '# TitleExample\nvalor1\nvalor2',
             type: 'md',

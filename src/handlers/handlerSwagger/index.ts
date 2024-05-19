@@ -1,13 +1,13 @@
-import { SchemaType } from '../types';
-import { swaggerParser } from '../utils/swaggerParser';
-import { configFile } from './readConfigFile';
+import { configFile } from '../../modules/readConfigFile';
+import { SchemaType } from '../../types';
+import { swaggerParser } from './swaggerParser';
 
 const regexGetUtilCommentSwagger = /\/\*\*\n\s*\*\s*@swagger([\s\S]*?\*\/)/gm;
 
 const NAME = 'process-swagger';
 
-export const processSwagger = (contentOriginal: string, config: configFile, file: string): SchemaType[] => {
-  const content = contentOriginal;
+export const handlerSwagger = (fileText: string, config: configFile, filePath: string, fileTags: string[]): SchemaType[] => {
+  const content = fileText;
 
   const match = [...content.matchAll(regexGetUtilCommentSwagger)];
 
@@ -22,9 +22,11 @@ export const processSwagger = (contentOriginal: string, config: configFile, file
     if (!result.yaml || result.error) {
       return {
         tags: ['swagger', 'endpoint'],
-        errors: [`Erro ao obter Dados do Swagger do contexto "${config.context}.${config.name}" e arquivo "${file}" error ${result.error}`],
+        errors: [
+          `Erro ao obter Dados do Swagger do contexto "${config.context}.${config.name}" e arquivo "${filePath}" error ${result.error}`
+        ],
         originName: config.name,
-        content: [],
+        blocks: [],
         handlerName: NAME,
         title: 'Obter Documentação do Swagger'
       };
@@ -45,10 +47,10 @@ export const processSwagger = (contentOriginal: string, config: configFile, file
     const markdownFinal = summary ? `# ${summary}\n${description}` : description;
 
     return {
-      tags: ['swagger', 'endpoint', method, path, ...tags],
+      tags: [...fileTags, 'swagger', 'endpoint', method, path, ...tags],
       originName: config.name,
       handlerName: NAME,
-      content: [{ markdown: markdownFinal, type: 'md', subType: 'normal' }],
+      blocks: [{ markdown: markdownFinal, type: 'md', subType: 'normal' }],
       title: title as string
     };
   });

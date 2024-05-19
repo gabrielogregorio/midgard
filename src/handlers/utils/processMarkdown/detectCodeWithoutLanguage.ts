@@ -4,15 +4,15 @@ type detectCodeWithoutLanguageType = { type: 'code-without-language'; file: stri
 
 export const detectCodeWithoutLanguage = (text: string): detectCodeWithoutLanguageType[] => {
   const final: detectCodeWithoutLanguageType[] = [];
-  const code = [...text.matchAll(regex)];
+  const matchItems = [...text.matchAll(regex)];
 
-  code.forEach((item) => {
-    const language = item[1];
+  matchItems.forEach((match) => {
+    const language = match[1];
     if (!language.trim()) {
       final.push({
         type: 'code-without-language',
         file: '',
-        code: item[0]
+        code: match[0]
       });
     }
   });

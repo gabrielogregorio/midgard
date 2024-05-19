@@ -1,29 +1,47 @@
 import { handlerCollectHttp } from '.';
-import { referenceApplicationJsonHeader } from './utils';
+import { handlerNameCollectHttp, referenceApplicationJsonHeader } from './utils';
 
-describe('', () => {
+const fileInput = './docs/adr/file.http';
+
+const configFile = { context: 'example.tag', name: 'name' };
+
+const fileTags = ['docs', 'adr', 'file', 'http'];
+
+describe('handlerCollectHttp', () => {
   it('should extract simple get request', () => {
-    const examplePost = `
+    const input = `
 GET exampleUrl HTTP/1.1
 `;
 
-    expect(handlerCollectHttp(examplePost)).toEqual([
+    expect(handlerCollectHttp(input, configFile, fileInput, fileTags)).toEqual([
       {
-        title: '',
-        comments: '',
+        blocks: [
+          {
+            markdown: '#    ',
+            subType: 'normal',
+            type: 'md'
+          },
+          {
+            method: 'GET',
+            type: 'request',
+            url: 'exampleUrl',
+
+            headers: {},
+            payload: ''
+          }
+        ],
         errors: [],
-        request: {
-          method: 'GET',
-          url: 'exampleUrl',
-          headers: {},
-          payload: ''
-        }
+        handlerName: handlerNameCollectHttp,
+        originName: configFile.name,
+        tags: ['docs', 'adr', 'file', 'http', 'GET', 'exampleUrl', 'endpoint'],
+        title: 'GET exampleUrl',
+        warning: []
       }
     ]);
   });
 
   it('should extract multiples request with empty title ', () => {
-    const examplePost = `
+    const input = `
 ###
 GET exampleUrl HTTP/1.1
 
@@ -32,36 +50,62 @@ GET exampleUrl HTTP/1.1
 DELETE exampleUrl2 HTTP/1.1
 `;
 
-    expect(handlerCollectHttp(examplePost)).toEqual([
+    expect(handlerCollectHttp(input, configFile, fileInput, fileTags)).toEqual([
       {
-        title: '',
-        comments: '',
+        blocks: [
+          {
+            markdown: '#    ',
+            subType: 'normal',
+            type: 'md'
+          },
+          {
+            type: 'request',
+            method: 'GET',
+
+            url: 'exampleUrl',
+            headers: {},
+            payload: ''
+          }
+        ],
         errors: [],
-        request: {
-          method: 'GET',
-          url: 'exampleUrl',
-          headers: {},
-          payload: ''
-        }
+        handlerName: handlerNameCollectHttp,
+        originName: configFile.name,
+        tags: ['docs', 'adr', 'file', 'http', 'GET', 'exampleUrl', 'endpoint'],
+        title: 'GET exampleUrl',
+        warning: []
       },
+
       {
-        title: '',
+        blocks: [
+          {
+            markdown: '#    ',
+            subType: 'normal',
+            type: 'md'
+          },
+
+          {
+            type: 'request',
+            method: 'DELETE',
+
+            url: 'exampleUrl2',
+            headers: {},
+            payload: ''
+          }
+        ],
         errors: [],
-        comments: '',
-        request: {
-          method: 'DELETE',
-          url: 'exampleUrl2',
-          headers: {},
-          payload: ''
-        }
+        handlerName: handlerNameCollectHttp,
+        originName: configFile.name,
+        tags: ['docs', 'adr', 'file', 'http', 'DELETE', 'exampleUrl2', 'endpoint'],
+        title: 'DELETE exampleUrl2',
+        warning: []
       }
     ]);
   });
 
   it('should extract url with title, and headers and json', () => {
-    const examplePost = `
+    const input = `
 ### title example
-POST http://example-url-2.com.br HTTP/1.1
+POST http://example-url-3.com.br HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer example
 {
@@ -74,61 +118,133 @@ Authorization: Bearer example
 }
 `;
 
-    expect(handlerCollectHttp(examplePost)).toEqual([
+    expect(handlerCollectHttp(input, configFile, fileInput, fileTags)).toEqual([
       {
-        title: 'title example',
-        comments: '',
-        errors: [],
-        request: {
-          method: 'POST',
-          url: 'http://example-url-2.com.br',
-          headers: {
-            'Content-Type': referenceApplicationJsonHeader,
-            Authorization: 'Bearer example'
+        blocks: [
+          {
+            markdown: '# title example\n   ',
+            subType: 'normal',
+            type: 'md'
           },
-          payload: `{
+          {
+            type: 'request',
+            method: 'POST',
+
+            url: 'http://example-url-3.com.br',
+            headers: {
+              'Content-Type': referenceApplicationJsonHeader,
+              Authorization: 'Bearer example'
+            },
+            payload: `{
   "any": {
       "json": "data",
   },
   "any2": {
       "json2": 123
   }
+}`
+          }
+        ],
+        errors: [],
+        handlerName: handlerNameCollectHttp,
+        originName: configFile.name,
+        tags: ['docs', 'adr', 'file', 'http', 'POST', 'http://example-url-3.com.br', 'endpoint'],
+        title: 'title example',
+        warning: []
+      }
+    ]);
+  });
+
+  it('should extract data with "Content-type"', () => {
+    const input = `
+### title example
+POST http://example-url-2.com.br HTTP/1.1
+Content-type: application/json
+Authorization: Bearer example
+{
+  "any": "abc"
 }
-`
-        }
+`;
+
+    expect(handlerCollectHttp(input, configFile, fileInput, fileTags)).toEqual([
+      {
+        blocks: [
+          {
+            markdown: '# title example\n   ',
+            subType: 'normal',
+            type: 'md'
+          },
+          {
+            type: 'request',
+
+            method: 'POST',
+            url: 'http://example-url-2.com.br',
+            headers: {
+              'Content-type': referenceApplicationJsonHeader,
+              Authorization: 'Bearer example'
+            },
+            payload: `{\n  "any": "abc"\n}`
+          }
+        ],
+        errors: [],
+        handlerName: handlerNameCollectHttp,
+        originName: configFile.name,
+        tags: ['docs', 'adr', 'file', 'http', 'POST', 'http://example-url-2.com.br', 'endpoint'],
+        title: 'title example',
+        warning: []
       }
     ]);
   });
 
   it('should extract url with title, and headers and NOT json because do not content type json', () => {
-    const examplePost = `
+    const input = `
 ### Faz isso e aquilo
-POST http://localhost:3333/example-url HTTP/1.1
-Authorization: Bearer 1234567
+POST http://localhost:3333/example-url2 HTTP/1.1
+Authorization: Bearer Example
 {
   invalid content
 }
 `;
 
-    expect(handlerCollectHttp(examplePost)).toEqual([
+    expect(handlerCollectHttp(input, configFile, fileInput, fileTags)).toEqual([
       {
-        title: 'Faz isso e aquilo',
-        comments: '',
-        errors: ['Unmapped characters found: "{"', 'Unmapped characters found: "  invalid content"', 'Unmapped characters found: "}"'],
-        request: {
-          method: 'POST',
-          url: 'http://localhost:3333/example-url',
-          headers: {
-            Authorization: 'Bearer 1234567'
+        blocks: [
+          {
+            markdown: '# Faz isso e aquilo\n   ',
+            subType: 'normal',
+            type: 'md'
           },
-          payload: ``
-        }
+          {
+            type: 'request',
+            method: 'POST',
+            url: 'http://localhost:3333/example-url2',
+            headers: {
+              Authorization: 'Bearer Example',
+              'content-type': 'application/json'
+            },
+            payload: '{\n  invalid content\n}'
+          }
+        ],
+        errors: [],
+        handlerName: handlerNameCollectHttp,
+        originName: configFile.name,
+        tags: ['docs', 'adr', 'file', 'http', 'POST', 'http://localhost:3333/example-url2', 'endpoint'],
+        title: 'Faz isso e aquilo',
+        warning: [
+          {
+            file: './docs/adr/file.http',
+            type: 'request-json-without-header',
+            code: [
+              '### Faz isso e aquilo\nPOST http://localhost:3333/example-url2 HTTP/1.1\nAuthorization: Bearer Example\n{\n  invalid content\n}\n'
+            ]
+          }
+        ]
       }
     ]);
   });
 
   it('should extract complete url with multiples comments and complete request', () => {
-    const examplePost = `
+    const input = `
 ### example title 2
 # comment1
 // comment2
@@ -146,28 +262,107 @@ Authorization: Bearer 1234567
 }
 `;
 
-    expect(handlerCollectHttp(examplePost)).toEqual([
+    expect(handlerCollectHttp(input, configFile, fileInput, fileTags)).toEqual([
       {
-        title: 'example title 2',
-        comments: 'comment1\ncomment2\ncomment3\n',
-        errors: [],
-        request: {
-          method: 'PATCH',
-          url: 'http://localhost:3333/example-url',
-          headers: {
-            'Content-Type': referenceApplicationJsonHeader,
-            Authorization: 'Bearer 1234567'
+        blocks: [
+          {
+            markdown: '# example title 2\ncomment1   \ncomment2   \ncomment3   \n   ',
+            subType: 'normal',
+            type: 'md'
           },
-          payload: `{
+          {
+            method: 'PATCH',
+
+            type: 'request',
+            url: 'http://localhost:3333/example-url',
+            headers: {
+              'Content-Type': referenceApplicationJsonHeader,
+              Authorization: 'Bearer 1234567'
+            },
+            payload: `{
   "any": {
       "json": "data",
   },
   "any2": {
       "json2": 123
   }
-}
-`
-        }
+}`
+          }
+        ],
+        errors: [],
+        handlerName: handlerNameCollectHttp,
+        originName: configFile.name,
+        tags: ['docs', 'adr', 'file', 'http', 'PATCH', 'http://localhost:3333/example-url', 'endpoint'],
+        title: 'example title 2',
+        warning: []
+      }
+    ]);
+  });
+
+  it('should resolve base url on use variable sintax', () => {
+    const input = `
+### example title 2
+@baseUrl = http://localhost:3333
+PATCH {{baseUrl}}/example-url-3 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer 1234567
+
+####
+
+GET {{baseUrl}}/url-test
+
+
+`;
+
+    expect(handlerCollectHttp(input, configFile, fileInput, fileTags)).toEqual([
+      {
+        blocks: [
+          {
+            markdown: '# example title 2\n   ',
+            subType: 'normal',
+            type: 'md'
+          },
+          {
+            method: 'PATCH',
+
+            type: 'request',
+            url: 'http://localhost:3333/example-url-3',
+            headers: {
+              'Content-Type': referenceApplicationJsonHeader,
+              Authorization: 'Bearer 1234567'
+            },
+            payload: ''
+          }
+        ],
+        errors: [],
+        handlerName: handlerNameCollectHttp,
+        originName: configFile.name,
+        tags: ['docs', 'adr', 'file', 'http', 'PATCH', 'http://localhost:3333/example-url-3', 'endpoint'],
+        title: 'example title 2',
+        warning: []
+      },
+
+      {
+        blocks: [
+          {
+            markdown: '#    ',
+            subType: 'normal',
+            type: 'md'
+          },
+          {
+            headers: {},
+            method: 'GET',
+            payload: '',
+            type: 'request',
+            url: 'http://localhost:3333/url-test'
+          }
+        ],
+        errors: [],
+        handlerName: 'collect-http',
+        originName: 'name',
+        tags: ['docs', 'adr', 'file', 'http', 'GET', 'http://localhost:3333/url-test', 'endpoint'],
+        title: 'GET http://localhost:3333/url-test',
+        warning: []
       }
     ]);
   });

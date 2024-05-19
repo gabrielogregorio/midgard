@@ -8,7 +8,29 @@ type pageDocsMd = {
   markdown?: string;
 };
 
-export type contentType = pageDocsMd;
+export type swaggerRequestType = {
+  type: 'openApi3';
+  summary: string;
+  description: string;
+  method: string;
+  url: string;
+  sceneries: {
+    summary: string;
+    description: string;
+    params: { [key: string]: {
+      type: 'string',
+      description: string,
+      examples: string[]
+    } };
+    payload: unknown;
+    headers: {
+      [key: string]: string;
+    };
+    response: { status: number; example: unknown };
+  }[];
+};
+
+export type blocksType = pageDocsMd | swaggerRequestType;
 
 export type codeWithoutLanguageType = {
   type: 'code-without-language';
@@ -16,14 +38,20 @@ export type codeWithoutLanguageType = {
   code: string[];
 };
 
-type warningType = codeWithoutLanguageType;
+export type requestJsonWithoutHeader = {
+  type: 'request-json-without-header';
+  file: string;
+  code: string[];
+};
+
+type warningType = codeWithoutLanguageType | requestJsonWithoutHeader;
 
 export type SchemaType = {
   title: string;
   errors?: string[];
   warning?: warningType[];
   tags?: string[];
-  content: contentType[];
+  blocks: blocksType[];
   originName: string;
   handlerName: string;
 };

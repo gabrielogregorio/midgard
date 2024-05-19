@@ -1,8 +1,7 @@
-export type scrappersType = {
+export type projectsType = {
   bannedPaths: string[];
   filterFile: string;
   directory: string;
-  muteLogsListOfAnalyzedFiles: boolean;
 };
 
 export type hierarchyType = {
@@ -11,6 +10,6 @@ export type hierarchyType = {
 };
 
 export type configBase = {
-  scrappers: scrappersType[];
+  projects: projectsType[];
   hierarchy: hierarchyType[];
 };

@@ -1,5 +1,5 @@
-import * as generateId from '../utils/generateId';
-import { mapImages } from './mapImages';
+import * as generateId from '../../../utils/generateId';
+import { findImages } from './findImages';
 
 process.env.PORT = '3333';
 
@@ -8,18 +8,18 @@ spy.mockImplementation(() => 'idMock');
 
 const pathFile = './example/';
 
-describe('mapImages', () => {
-  it('should returns empty on dont found image', () => {
-    expect(mapImages({ content: ``, pathFile })).toEqual([]);
-    expect(mapImages({ content: `example any content`, pathFile })).toEqual([]);
+describe('findImages', () => {
+  it("should returns empty on don't found image", () => {
+    expect(findImages({ content: ``, pathFile })).toEqual([]);
+    expect(findImages({ content: `example any content`, pathFile })).toEqual([]);
   });
 
   it('should returns empty on found link', () => {
-    expect(mapImages({ content: `[this is a link](linkExample)`, pathFile })).toEqual([]);
+    expect(findImages({ content: `[this is a link](linkExample)`, pathFile })).toEqual([]);
   });
 
   it('should resolve local image', () => {
-    expect(mapImages({ content: `![this is a description](./thisIsLocalLink.png)`, pathFile })).toEqual([
+    expect(findImages({ content: `![this is a description](./thisIsLocalLink.png)`, pathFile })).toEqual([
       {
         copyFrom: 'example/thisIsLocalLink.png',
         copyTo: './public/idMock.png',
@@ -30,7 +30,7 @@ describe('mapImages', () => {
   });
 
   it('should resolve absolute image', () => {
-    expect(mapImages({ content: `![this is a description](/home/thisIsLocalLink.png)`, pathFile: './any path' })).toEqual([
+    expect(findImages({ content: `![this is a description](/home/thisIsLocalLink.png)`, pathFile: './any path' })).toEqual([
       {
         copyFrom: '/home/thisIsLocalLink.png',
         copyTo: './public/idMock.png',
@@ -42,7 +42,7 @@ describe('mapImages', () => {
 
   it('should not resolve external image', () => {
     expect(
-      mapImages({
+      findImages({
         content: `[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/123abc)](https://app.codacy.com?utm_source=exanoke&utm_medium=other&utm_content=&utm_campaign=Badge_coverage) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/example2)](https://app.codacy.com?utm_source=gh&utm_medium=example2&utm_campaign=Badge_grade) ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)`,
         pathFile: './anypath'
       })

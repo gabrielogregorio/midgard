@@ -1,7 +1,7 @@
 import { extractDevBlocksReturnType } from './extractDevBlocks';
-import { extractTags } from './extractTags';
+import { extractTagsByBlock } from './extractTagsByBlock';
 
-describe('extractTags', () => {
+describe('extractTagsByBlock', () => {
   it('should extract tags', () => {
     const line: extractDevBlocksReturnType[] = [
       {
@@ -9,10 +9,10 @@ describe('extractTags', () => {
         type: 'normal'
       }
     ];
-    const results = extractTags(line);
+    const results = extractTagsByBlock(line);
 
     expect(results).toEqual({
-      content: [
+      blocks: [
         { markdown: 'up\n\n  ', type: 'md', subType: 'normal' },
         { markdown: 'tags: [doc endpoints, other, exemple]', type: 'tag', subType: 'normal' },
         { markdown: 'down\ndown2', type: 'md', subType: 'normal' }
@@ -26,10 +26,10 @@ describe('extractTags', () => {
       { markdown: `example\ntags: [doc endpoints, other, exemple]`, type: 'normal' }
     ];
 
-    const results = extractTags(lineWithoutContent);
+    const results = extractTagsByBlock(lineWithoutContent);
 
     expect(results).toEqual({
-      content: [
+      blocks: [
         { markdown: 'example', type: 'md', subType: 'normal' },
         { markdown: 'tags: [doc endpoints, other, exemple]', type: 'tag', subType: 'normal' }
       ],

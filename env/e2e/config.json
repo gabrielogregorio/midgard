@@ -1,0 +1,35 @@
+{
+  "projects": [
+    {
+      "bannedPaths": ["node_modules", ".git", "next", "build", "dist"],
+      "filterFile": "",
+      "directory": "./env/e2e/backend"
+    },
+    {
+      "bannedPaths": ["node_modules", ".git", "next", "build", "dist"],
+      "filterFile": "",
+      "directory": "./env/e2e/bot"
+    },
+    {
+      "bannedPaths": ["node_modules", ".git", "next", "build", "dist"],
+      "filterFile": "",
+      "directory": "./env/e2e/frontend"
+    }
+  ],
+  "hierarchy": [
+    {
+      "tags": ["combratec", " squads", "docbytest", "backend"],
+      "title": "🛢️ Backend"
+    },
+
+    {
+      "tags": ["combratec", " squads", "marketing", "bot"],
+      "title": "🤖 Bot"
+    },
+
+    {
+      "tags": ["combratec", " squads", "docbytest", "frontend"],
+      "title": "⭐ Frontend"
+    }
+  ]
+}
