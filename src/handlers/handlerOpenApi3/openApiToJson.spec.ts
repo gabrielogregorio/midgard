@@ -1,5 +1,6 @@
-import { OpenAPI3, ReferenceObject, SchemaObject } from 'openapi-typescript';
+import { OpenAPI3, ReferenceObject } from 'openapi-typescript';
 import { openApi3ToJson } from './openApiToJson';
+import { CustomSchemaObject } from '../../types';
 
 const fullSchema: OpenAPI3 = {
   openapi: '3.0.1',
@@ -49,7 +50,7 @@ const fullSchema: OpenAPI3 = {
 
 describe('openApi3ToJson', () => {
   it('should resolve a simple schema', () => {
-    const example1: SchemaObject = {
+    const example1: CustomSchemaObject = {
       required: ['name', 'bestNumber'],
       type: 'object',
       properties: {
@@ -65,7 +66,7 @@ describe('openApi3ToJson', () => {
   });
 
   it('should resolve a two schema', () => {
-    const example1: SchemaObject = {
+    const example1: CustomSchemaObject = {
       required: ['name', 'bestNumber'],
       type: 'object',
       properties: {
@@ -85,7 +86,7 @@ describe('openApi3ToJson', () => {
   });
 
   it('should resolve a objects schema', () => {
-    const example1: SchemaObject = {
+    const example1: CustomSchemaObject = {
       required: ['name', 'bestNumber'],
       type: 'object',
       properties: {
@@ -144,7 +145,7 @@ describe('openApi3ToJson', () => {
   });
 
   it('should resolve a objects schema', () => {
-    const example1: SchemaObject = {
+    const example1: CustomSchemaObject = {
       type: 'object',
       properties: {
         error: {
@@ -175,7 +176,7 @@ describe('openApi3ToJson', () => {
   });
 
   it('should resolve a objects with ref', () => {
-    const example1: SchemaObject | ReferenceObject = {
+    const example1: CustomSchemaObject | ReferenceObject = {
       $ref: '#/components/schemas/ExampleAccess'
     };
 
@@ -192,7 +193,7 @@ describe('openApi3ToJson', () => {
   });
 
   it('should resolve internal ref objects with ref', () => {
-    const example1: SchemaObject | ReferenceObject = {
+    const example1: CustomSchemaObject | ReferenceObject = {
       type: 'array',
       description: '',
       items: {
@@ -214,7 +215,7 @@ describe('openApi3ToJson', () => {
 });
 
 it('should resolve a objects schema without example', () => {
-  const example1: SchemaObject = {
+  const example1: CustomSchemaObject = {
     properties: {
       username: {
         type: 'string'

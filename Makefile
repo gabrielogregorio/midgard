@@ -20,4 +20,4 @@ stop:
 	@docker compose -f ./docker-compose.yaml stop
 
 bash:
-	@docker exec -it yggdrasil /bin/bash
+	@docker exec -it pangeia /bin/bash

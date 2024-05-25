@@ -5,7 +5,6 @@ import { CustomError } from '../error';
 type OptionsFindRecursiveFiles = {
   directory: string;
   bannedPaths: string[];
-  filterFile?: string;
 };
 
 type OptionsFindRecursiveFilesReturn = {
@@ -14,7 +13,7 @@ type OptionsFindRecursiveFilesReturn = {
   ignoredFiles: string[];
 };
 
-const findRecursiveFilesInternal = ({ directory, bannedPaths, filterFile }: OptionsFindRecursiveFiles) => {
+const findRecursiveFilesInternal = ({ directory, bannedPaths }: OptionsFindRecursiveFiles) => {
   const response: OptionsFindRecursiveFilesReturn = {
     files: [],
     bannedPaths: [],
@@ -38,12 +37,6 @@ const findRecursiveFilesInternal = ({ directory, bannedPaths, filterFile }: Opti
         scanDirectory(filePath);
         return;
       }
-
-      if (filterFile && !RegExp(filterFile)?.test(filePath)) {
-        response.ignoredFiles.push(filePath);
-        return;
-      }
-
       response.files.push(filePath);
     });
   }

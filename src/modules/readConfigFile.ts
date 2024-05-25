@@ -15,7 +15,7 @@ const User = z.object({
 });
 
 export const readConfigFile = (folderPath: string): configFile => {
-  const configFilePath = path.resolve(folderPath, 'docbytest.config.json');
+  const configFilePath = path.resolve(folderPath, 'pangeia.config.json');
 
   LogService.info(`searching for configuration file in "${configFilePath}"`);
 

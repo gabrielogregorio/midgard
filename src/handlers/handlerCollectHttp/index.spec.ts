@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { handlerCollectHttp } from '.';
 import { handlerNameCollectHttp, referenceApplicationJsonHeader } from './utils';
 
@@ -23,11 +24,24 @@ GET exampleUrl HTTP/1.1
           },
           {
             method: 'GET',
-            type: 'request',
+            type: 'openApi3',
             url: 'exampleUrl',
+            summary: '',
+            description: '',
 
-            headers: {},
-            payload: ''
+            sceneries: [
+              {
+                summary: '',
+                description: '',
+                params: {},
+                headers: {},
+                response: {
+                  example: 'Sem exemplos de resposta',
+                  status: 0
+                },
+                payload: ''
+              }
+            ]
           }
         ],
         errors: [],
@@ -59,12 +73,24 @@ DELETE exampleUrl2 HTTP/1.1
             type: 'md'
           },
           {
-            type: 'request',
+            type: 'openApi3',
             method: 'GET',
-
+            description: '',
             url: 'exampleUrl',
-            headers: {},
-            payload: ''
+            summary: '',
+            sceneries: [
+              {
+                summary: '',
+                description: '',
+                params: {},
+                headers: {},
+                response: {
+                  example: 'Sem exemplos de resposta',
+                  status: 0
+                },
+                payload: ''
+              }
+            ]
           }
         ],
         errors: [],
@@ -84,12 +110,25 @@ DELETE exampleUrl2 HTTP/1.1
           },
 
           {
-            type: 'request',
+            type: 'openApi3',
             method: 'DELETE',
+            summary: '',
+            sceneries: [
+              {
+                summary: '',
+                description: '',
+                params: {},
+                headers: {},
+                response: {
+                  example: 'Sem exemplos de resposta',
+                  status: 0
+                },
+                payload: ''
+              }
+            ],
 
-            url: 'exampleUrl2',
-            headers: {},
-            payload: ''
+            description: '',
+            url: 'exampleUrl2'
           }
         ],
         errors: [],
@@ -127,22 +166,36 @@ Authorization: Bearer example
             type: 'md'
           },
           {
-            type: 'request',
+            type: 'openApi3',
             method: 'POST',
 
             url: 'http://example-url-3.com.br',
-            headers: {
-              'Content-Type': referenceApplicationJsonHeader,
-              Authorization: 'Bearer example'
-            },
-            payload: `{
+            summary: '',
+            description: '',
+            sceneries: [
+              {
+                summary: '',
+                description: '',
+                params: {},
+                headers: {
+                  'Content-Type': referenceApplicationJsonHeader,
+                  Authorization: 'Bearer example'
+                },
+
+                payload: `{
   "any": {
       "json": "data",
   },
   "any2": {
       "json2": 123
   }
-}`
+}`,
+                response: {
+                  example: 'Sem exemplos de resposta',
+                  status: 0
+                }
+              }
+            ]
           }
         ],
         errors: [],
@@ -175,15 +228,28 @@ Authorization: Bearer example
             type: 'md'
           },
           {
-            type: 'request',
-
+            type: 'openApi3',
             method: 'POST',
             url: 'http://example-url-2.com.br',
-            headers: {
-              'Content-type': referenceApplicationJsonHeader,
-              Authorization: 'Bearer example'
-            },
-            payload: `{\n  "any": "abc"\n}`
+            description: '',
+            summary: '',
+
+            sceneries: [
+              {
+                summary: '',
+                description: '',
+                params: {},
+                headers: {
+                  'Content-type': referenceApplicationJsonHeader,
+                  Authorization: 'Bearer example'
+                },
+                response: {
+                  example: 'Sem exemplos de resposta',
+                  status: 0
+                },
+                payload: '{\n  "any": "abc"\n}' // conveter para objeto
+              }
+            ]
           }
         ],
         errors: [],
@@ -215,14 +281,28 @@ Authorization: Bearer Example
             type: 'md'
           },
           {
-            type: 'request',
+            type: 'openApi3',
             method: 'POST',
             url: 'http://localhost:3333/example-url2',
-            headers: {
-              Authorization: 'Bearer Example',
-              'content-type': 'application/json'
-            },
-            payload: '{\n  invalid content\n}'
+            summary: '',
+            description: '',
+
+            sceneries: [
+              {
+                summary: '',
+                description: '',
+                params: {},
+                headers: {
+                  Authorization: 'Bearer Example',
+                  'content-type': 'application/json'
+                },
+                response: {
+                  example: 'Sem exemplos de resposta',
+                  status: 0
+                },
+                payload: '{\n  invalid content\n}'
+              }
+            ]
           }
         ],
         errors: [],
@@ -272,14 +352,24 @@ Authorization: Bearer 1234567
           },
           {
             method: 'PATCH',
+            description: '',
+            summary: '',
 
-            type: 'request',
-            url: 'http://localhost:3333/example-url',
-            headers: {
-              'Content-Type': referenceApplicationJsonHeader,
-              Authorization: 'Bearer 1234567'
-            },
-            payload: `{
+            sceneries: [
+              {
+                summary: '',
+                description: '',
+                params: {},
+                headers: {
+                  'Content-Type': referenceApplicationJsonHeader,
+                  Authorization: 'Bearer 1234567'
+                },
+
+                response: {
+                  example: 'Sem exemplos de resposta',
+                  status: 0
+                },
+                payload: `{
   "any": {
       "json": "data",
   },
@@ -287,6 +377,11 @@ Authorization: Bearer 1234567
       "json2": 123
   }
 }`
+              }
+            ],
+
+            type: 'openApi3',
+            url: 'http://localhost:3333/example-url'
           }
         ],
         errors: [],
@@ -325,13 +420,28 @@ GET {{baseUrl}}/url-test
           {
             method: 'PATCH',
 
-            type: 'request',
+            type: 'openApi3',
             url: 'http://localhost:3333/example-url-3',
-            headers: {
-              'Content-Type': referenceApplicationJsonHeader,
-              Authorization: 'Bearer 1234567'
-            },
-            payload: ''
+            description: '',
+            summary: '',
+
+            sceneries: [
+              {
+                summary: '',
+                description: '',
+                params: {},
+                headers: {
+                  'Content-Type': referenceApplicationJsonHeader,
+                  Authorization: 'Bearer 1234567'
+                },
+
+                response: {
+                  example: 'Sem exemplos de resposta',
+                  status: 0
+                },
+                payload: ``
+              }
+            ]
           }
         ],
         errors: [],
@@ -349,11 +459,28 @@ GET {{baseUrl}}/url-test
             subType: 'normal',
             type: 'md'
           },
+
           {
-            headers: {},
             method: 'GET',
-            payload: '',
-            type: 'request',
+            type: 'openApi3',
+            summary: '',
+            description: '',
+
+            sceneries: [
+              {
+                summary: '',
+                description: '',
+                params: {},
+                headers: {},
+
+                response: {
+                  example: 'Sem exemplos de resposta',
+                  status: 0
+                },
+                payload: ``
+              }
+            ],
+
             url: 'http://localhost:3333/url-test'
           }
         ],

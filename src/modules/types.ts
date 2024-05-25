@@ -1,6 +1,5 @@
 export type projectsType = {
   bannedPaths: string[];
-  filterFile: string;
   directory: string;
 };
 

@@ -13,7 +13,6 @@ import { handlerOpenApi3 } from '../handlers/handlerOpenApi3';
 type processHandlerType = {
   directory: string;
   bannedPaths: string[];
-  filterFile?: string;
 };
 
 export const processHandler = (input: processHandlerType): SchemaType[] => {
@@ -43,25 +42,22 @@ export const processHandler = (input: processHandlerType): SchemaType[] => {
         )
       ];
 
-      pages = pages.concat(handlerComments(fileText, config, filePath, fileTags));
+      const fullContext = `${config.context}.${config.name}`.split('.');
+      const tags = [...fullContext, ...fileTags];
 
-      pages = pages.concat(handlerSwagger(fileText, config, filePath, fileTags));
-
-      pages = pages.concat(handlerOpenApi3(fileText, config, filePath, fileTags));
-
-      pages = pages.concat(handlerCollectHttp(fileText, config, filePath, fileTags));
-
-      pages = pages.concat(handlerMarkdown(fileText, config, filePath, fileTags));
+      pages = pages.concat(handlerComments(fileText, config, filePath, tags));
+      pages = pages.concat(handlerSwagger(fileText, config, filePath, tags));
+      pages = pages.concat(handlerOpenApi3(fileText, config, filePath, tags));
+      pages = pages.concat(handlerCollectHttp(fileText, config, filePath, tags));
+      pages = pages.concat(handlerMarkdown(fileText, config, filePath, tags));
     } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new CustomError(`Error reading filePath "${filePath}", error "${error}", stack=${error?.stack}`);
+      }
+
       throw new CustomError(`Error reading filePath "${filePath}", error "${error}"`);
     }
   });
-  const fullContext = `${config.context}.${config.name}`.split('.');
-
-  pages = pages.map((page) => ({
-    ...page,
-    tags: [...fullContext, ...(page.tags || [])]
-  }));
 
   if (pages.length) {
     LogService.info(`Data extraction completed with ${pages.length} items`);

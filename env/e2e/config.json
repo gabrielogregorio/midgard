@@ -2,17 +2,14 @@
   "projects": [
     {
       "bannedPaths": ["node_modules", ".git", "next", "build", "dist"],
-      "filterFile": "",
       "directory": "./env/e2e/backend"
     },
     {
       "bannedPaths": ["node_modules", ".git", "next", "build", "dist"],
-      "filterFile": "",
       "directory": "./env/e2e/bot"
     },
     {
       "bannedPaths": ["node_modules", ".git", "next", "build", "dist"],
-      "filterFile": "",
       "directory": "./env/e2e/frontend"
     }
   ],

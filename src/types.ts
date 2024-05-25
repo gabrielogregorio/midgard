@@ -1,3 +1,5 @@
+import { ObjectSubtype, SchemaObject } from 'openapi-typescript';
+
 export type Context = {
   file: string;
 };
@@ -17,11 +19,13 @@ export type swaggerRequestType = {
   sceneries: {
     summary: string;
     description: string;
-    params: { [key: string]: {
-      type: 'string',
-      description: string,
-      examples: string[]
-    } };
+    params: {
+      [key: string]: {
+        type: 'string';
+        description: string;
+        examples: string[];
+      };
+    };
     payload: unknown;
     headers: {
       [key: string]: string;
@@ -55,3 +59,5 @@ export type SchemaType = {
   originName: string;
   handlerName: string;
 };
+
+export type CustomSchemaObject = SchemaObject & { type?: string; properties?: ObjectSubtype['properties'] };

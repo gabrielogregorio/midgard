@@ -142,13 +142,17 @@ export const processDocBlock = (
       {
         description: '',
         type: 'openApi3',
-        headers,
-        security: [],
         summary: '',
-        // requestBody: null, // todo implementar schema
-        payload,
-        parameters: null,
-        responses: [],
+        sceneries: [
+          {
+            description: '',
+            summary: '',
+            headers,
+            payload,
+            params: {},
+            response: { example: 'Sem exemplos de resposta', status: 0 }
+          }
+        ],
 
         url,
         method

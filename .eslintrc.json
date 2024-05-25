@@ -89,7 +89,7 @@
           "zod",
           "openapi",
           "lstat",
-          "docbytest",
+          "pangeia",
           "tsconfig"
         ],
         "minLength": 3

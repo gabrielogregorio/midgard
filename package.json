@@ -1,7 +1,7 @@
 {
-  "name": "midgard",
+  "name": "pangeia-collector",
   "version": "0.1.0",
-  "description": "midgard",
+  "description": "pangeia-collector",
   "main": "index.js",
   "engines": {
     "yarn": "4.2.x",

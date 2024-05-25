@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  midgard:
-    container_name: midgard
+  pangeia-collector:
+    container_name: pangeia-collector
     env_file: .env
     deploy:
       resources:

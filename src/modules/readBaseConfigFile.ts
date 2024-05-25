@@ -6,7 +6,6 @@ import { configBase } from './types';
 
 const projectsSchema = z.object({
   bannedPaths: z.array(z.string()),
-  filterFile: z.string(),
   directory: z.string(),
 });
 

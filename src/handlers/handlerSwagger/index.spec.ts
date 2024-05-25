@@ -154,7 +154,7 @@ describe('', () => {
      *                  name:
      *                    type: string
      *            example: {
-     *              "id": "123456789",
+     *              "id": "4444444",
      *              "name": "exampleName"
      *            }
      *      404:
@@ -194,7 +194,7 @@ describe('', () => {
                 response: {
                   status: 200,
                   example: {
-                    id: '123456789',
+                    id: '4444444',
                     name: 'exampleName'
                   }
                 },
@@ -233,7 +233,7 @@ describe('', () => {
      *      type: string
      *      name: param1
      *      required: true
-     *      example: '1234567'
+     *      example: '11111111'
      *      description: param description v1
      *    - in: path
      *      name: param2
@@ -245,10 +245,10 @@ describe('', () => {
     *      type: string
     *      required: true
     *      description: param description v3
-    *      example: '1234567'
+    *      example: '11111111'
     *      examples:
-    *        example1: {value: '1234567'}
-    *        example2: {value: '7654321'}
+    *        example1: {value: '11111111'}
+    *        example2: {value: '222222'}
     *    responses:
      *      200:
      *        description: Success
@@ -281,7 +281,7 @@ describe('', () => {
                 params: {
                   param1: {
                     description: 'param description v1',
-                    examples: ['1234567']
+                    examples: ['11111111']
                   },
                   param2: {
                     description: 'param description v2',
@@ -289,7 +289,7 @@ describe('', () => {
                   },
                   param3: {
                     description: 'param description v3',
-                    examples: ['1234567', '1234567', '7654321']
+                    examples: ['11111111', '11111111', '222222']
                   }
                 },
 
