@@ -1,10 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { handlerCollectHttp } from '.';
+import { processHandlerType } from '../../modules/types';
+import { requestJsonWithoutHeaderMessage } from '../utils/processMarkdown/utils';
 import { handlerNameCollectHttp, referenceApplicationJsonHeader } from './utils';
 
 const fileInput = './docs/adr/file.http';
 
-const configFile = { context: 'example.tag', name: 'name' };
+const configFile: processHandlerType = { tags: ['example', 'tag', 'name'], bannedPaths: [], directory: '', title: '' };
 
 const fileTags = ['docs', 'adr', 'file', 'http'];
 
@@ -46,7 +48,7 @@ GET exampleUrl HTTP/1.1
         ],
         errors: [],
         handlerName: handlerNameCollectHttp,
-        originName: configFile.name,
+        originName: configFile.tags.join('.'),
         tags: ['docs', 'adr', 'file', 'http', 'GET', 'exampleUrl', 'endpoint'],
         title: 'GET exampleUrl',
         warning: []
@@ -95,7 +97,7 @@ DELETE exampleUrl2 HTTP/1.1
         ],
         errors: [],
         handlerName: handlerNameCollectHttp,
-        originName: configFile.name,
+        originName: configFile.tags.join('.'),
         tags: ['docs', 'adr', 'file', 'http', 'GET', 'exampleUrl', 'endpoint'],
         title: 'GET exampleUrl',
         warning: []
@@ -133,7 +135,7 @@ DELETE exampleUrl2 HTTP/1.1
         ],
         errors: [],
         handlerName: handlerNameCollectHttp,
-        originName: configFile.name,
+        originName: configFile.tags.join('.'),
         tags: ['docs', 'adr', 'file', 'http', 'DELETE', 'exampleUrl2', 'endpoint'],
         title: 'DELETE exampleUrl2',
         warning: []
@@ -200,7 +202,7 @@ Authorization: Bearer example
         ],
         errors: [],
         handlerName: handlerNameCollectHttp,
-        originName: configFile.name,
+        originName: configFile.tags.join('.'),
         tags: ['docs', 'adr', 'file', 'http', 'POST', 'http://example-url-3.com.br', 'endpoint'],
         title: 'title example',
         warning: []
@@ -254,7 +256,7 @@ Authorization: Bearer example
         ],
         errors: [],
         handlerName: handlerNameCollectHttp,
-        originName: configFile.name,
+        originName: configFile.tags.join('.'),
         tags: ['docs', 'adr', 'file', 'http', 'POST', 'http://example-url-2.com.br', 'endpoint'],
         title: 'title example',
         warning: []
@@ -307,13 +309,14 @@ Authorization: Bearer Example
         ],
         errors: [],
         handlerName: handlerNameCollectHttp,
-        originName: configFile.name,
+        originName: configFile.tags.join('.'),
         tags: ['docs', 'adr', 'file', 'http', 'POST', 'http://localhost:3333/example-url2', 'endpoint'],
         title: 'Faz isso e aquilo',
         warning: [
           {
             file: './docs/adr/file.http',
             type: 'request-json-without-header',
+            message: requestJsonWithoutHeaderMessage,
             code: [
               '### Faz isso e aquilo\nPOST http://localhost:3333/example-url2 HTTP/1.1\nAuthorization: Bearer Example\n{\n  invalid content\n}\n'
             ]
@@ -386,7 +389,7 @@ Authorization: Bearer 1234567
         ],
         errors: [],
         handlerName: handlerNameCollectHttp,
-        originName: configFile.name,
+        originName: configFile.tags.join('.'),
         tags: ['docs', 'adr', 'file', 'http', 'PATCH', 'http://localhost:3333/example-url', 'endpoint'],
         title: 'example title 2',
         warning: []
@@ -446,7 +449,7 @@ GET {{baseUrl}}/url-test
         ],
         errors: [],
         handlerName: handlerNameCollectHttp,
-        originName: configFile.name,
+        originName: configFile.tags.join('.'),
         tags: ['docs', 'adr', 'file', 'http', 'PATCH', 'http://localhost:3333/example-url-3', 'endpoint'],
         title: 'example title 2',
         warning: []
@@ -486,7 +489,7 @@ GET {{baseUrl}}/url-test
         ],
         errors: [],
         handlerName: 'collect-http',
-        originName: 'name',
+        originName: 'example.tag.name',
         tags: ['docs', 'adr', 'file', 'http', 'GET', 'http://localhost:3333/url-test', 'endpoint'],
         title: 'GET http://localhost:3333/url-test',
         warning: []

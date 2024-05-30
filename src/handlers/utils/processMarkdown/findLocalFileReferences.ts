@@ -1,19 +1,17 @@
-import { configFile } from '../../../modules/readConfigFile';
+import { processHandlerType } from '../../../modules/types';
 
 const regex = /(?<!!)\[(.*)?\]\((.*)\)/gm;
 
-const refFileTags = (itemSearch: string, config: configFile) => {
+const refFileTags = (itemSearch: string, config: processHandlerType) => {
   const tagsFile = itemSearch
     .replace(/[\\.\s\\/]{1,}/g, ' ')
     .split(' ')
     .filter((part) => part);
 
-  const defaultConfigs = `${config.context}.${config.name}`.split('.').filter((name) => name);
-
-  return [...defaultConfigs, ...tagsFile];
+  return [...config.tags, ...tagsFile];
 };
 
-const resolveRelativeImage = (search: RegExpExecArray, config: configFile) => {
+const resolveRelativeImage = (search: RegExpExecArray, config: processHandlerType) => {
   const searchItem = search[0];
   const itemSearch = search[2];
 
@@ -23,7 +21,7 @@ const resolveRelativeImage = (search: RegExpExecArray, config: configFile) => {
   return { search: searchItem, replaceTo };
 };
 
-type findLocalFileReferencesReturnType = { content: string; config: configFile };
+type findLocalFileReferencesReturnType = { content: string; config: processHandlerType };
 
 export const findLocalFileReferences = ({ content, config }: findLocalFileReferencesReturnType) => {
   const allReferences = [...new Set([...content.matchAll(regex)])];

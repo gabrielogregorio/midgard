@@ -1,10 +1,11 @@
 /* eslint-disable max-lines */
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable max-lines-per-function */
-import { configFile } from '../../modules/readConfigFile';
+import { processHandlerType } from '../../modules/types';
 import { blocksType, requestJsonWithoutHeader } from '../../types';
 import { extractTagByLine } from '../utils/extractTagByLine';
 import { processMarkdown } from '../utils/processMarkdown/processMarkdown';
+import { requestJsonWithoutHeaderMessage } from '../utils/processMarkdown/utils';
 import { getMethodAndUrl } from './getMethodAndUrl';
 import { referenceApplicationJsonHeader } from './utils';
 
@@ -23,7 +24,7 @@ type processDocBlockResponseType = {
 
 export const processDocBlock = (
   textBlock: string,
-  config: configFile,
+  config: processHandlerType,
   filePath: string,
   variablesLocal: { [key: string]: string }
 ): processDocBlockResponseType => {
@@ -82,6 +83,7 @@ export const processDocBlock = (
         warning.push({
           file: filePath,
           type: 'request-json-without-header',
+          message: requestJsonWithoutHeaderMessage,
           code: [textBlock]
         });
         headers['content-type'] = referenceApplicationJsonHeader;

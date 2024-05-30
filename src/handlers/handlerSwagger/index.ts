@@ -2,17 +2,17 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable sonarjs/cognitive-complexity */
 import { OpenAPI3 } from 'openapi-typescript';
-import { configFile } from '../../modules/readConfigFile';
 import { SchemaType, swaggerRequestType } from '../../types';
 import { openApi3ToJson } from '../handlerOpenApi3/openApiToJson';
 import { swaggerParser } from './swaggerParser';
 import { referenceApplicationJsonHeader } from '../handlerCollectHttp/utils';
+import { processHandlerType } from '../../modules/types';
 
 const regexGetUtilCommentSwagger = /\/\*\*\n\s*\*\s*@swagger([\s\S]*?\*\/)/gm;
 
 const NAME = 'process-swagger';
 
-export const handlerSwagger = (fileText: string, config: configFile, filePath: string, fileTags: string[]): SchemaType[] => {
+export const handlerSwagger = (fileText: string, config: processHandlerType, filePath: string, fileTags: string[]): SchemaType[] => {
   const content = fileText;
 
   const match = [...content.matchAll(regexGetUtilCommentSwagger)];
@@ -31,7 +31,7 @@ export const handlerSwagger = (fileText: string, config: configFile, filePath: s
       return {
         tags: ['swagger', 'endpoint'],
         errors: [`Error on parse swagger doc to yaml, from file "${filePath}" error ${result.error}`],
-        originName: config.name,
+        originName: config.tags.join('.'),
         blocks: [],
         handlerName: NAME,
         title: 'Erro ao obter documentação do swagger'
@@ -110,7 +110,7 @@ export const handlerSwagger = (fileText: string, config: configFile, filePath: s
       dataMethod?.parameters?.forEach((param) => {
         if (param?.in !== 'path') {
           // eslint-disable-next-line no-console
-          console.error(`Parametro não mapeado ${param?.in}`);
+          console.error(`Parametro não mapeado ${param?.in}, ${JSON.stringify(param)}`);
           return;
         }
         const paramsItems = Object.keys(param?.examples || {})
@@ -149,7 +149,7 @@ export const handlerSwagger = (fileText: string, config: configFile, filePath: s
     };
     return {
       tags: [...fileTags, 'swagger', 'endpoint', method, path, ...tags],
-      originName: config.name,
+      originName: config.tags.join('.'),
       handlerName: NAME,
       errors,
       blocks: [request],

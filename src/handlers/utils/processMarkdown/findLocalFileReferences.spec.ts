@@ -1,14 +1,16 @@
+import { processHandlerType } from '../../../modules/types';
 import * as generateId from '../../../utils/generateId';
 import { findLocalFileReferences } from './findLocalFileReferences';
-import { configFile } from '../../../modules/readConfigFile';
 
 process.env.PORT = '3333';
 
 const spy = jest.spyOn(generateId, 'generateId');
 spy.mockImplementation(() => 'idMock');
-const config: configFile = {
-  context: 'example.tag',
-  name: 'name'
+const config: processHandlerType = {
+  tags: ['example', 'tag', 'name'],
+  bannedPaths: [],
+  directory: '',
+  title: ''
 };
 
 describe('findLocalFileReferences', () => {

@@ -3,14 +3,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { OpenAPI3, OperationObject, ReferenceObject } from 'openapi-typescript';
 import { SchemaType, swaggerRequestType } from '../../types';
-import { configFile } from '../../modules/readConfigFile';
 import { LogService } from '../../services/log';
 import { openApi3ToJson } from './openApiToJson';
 import { referenceApplicationJsonHeader } from '../handlerCollectHttp/utils';
+import { processHandlerType } from '../../modules/types';
 
 const handlerNameOpenApi3 = 'open-api-3';
 
-export const handlerOpenApi3 = (fileText: string, config: configFile, filePath: string, fileTags: string[]): SchemaType[] => {
+export const handlerOpenApi3 = (fileText: string, config: processHandlerType, filePath: string, fileTags: string[]): SchemaType[] => {
   if (!filePath.endsWith('.json')) {
     return [];
   }
@@ -122,7 +122,7 @@ export const handlerOpenApi3 = (fileText: string, config: configFile, filePath: 
         warning: [],
         tags: [...fileTags, ...tagsRequest],
         blocks: [blockRequest],
-        originName: config.name,
+        originName: config.tags.join('.'),
         handlerName: handlerNameOpenApi3
       });
     });

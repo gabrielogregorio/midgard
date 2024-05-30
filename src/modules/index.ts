@@ -2,23 +2,16 @@ import { CustomError } from '../error';
 import { LogService } from '../services/log';
 import { SchemaType } from '../types';
 import { findRecursiveFiles } from './searchRecursiveFiles';
-import { readConfigFile } from './readConfigFile';
 import { readFile } from './readFile';
 import { handlerCollectHttp } from '../handlers/handlerCollectHttp';
 import { handlerMarkdown } from '../handlers/handlerMarkdown';
 import { handlerSwagger } from '../handlers/handlerSwagger';
 import { handlerComments } from '../handlers/handlerComments';
 import { handlerOpenApi3 } from '../handlers/handlerOpenApi3';
-
-type processHandlerType = {
-  directory: string;
-  bannedPaths: string[];
-};
+import { processHandlerType } from './types';
 
 export const processHandler = (input: processHandlerType): SchemaType[] => {
   LogService.info(`docbytest started analysis with settings "${JSON.stringify(input)}"`);
-
-  const config = readConfigFile(input.directory);
 
   LogService.info(`Searching for documentation files in "${input.directory}"`);
   const files = findRecursiveFiles(input);
@@ -42,14 +35,13 @@ export const processHandler = (input: processHandlerType): SchemaType[] => {
         )
       ];
 
-      const fullContext = `${config.context}.${config.name}`.split('.');
-      const tags = [...fullContext, ...fileTags];
+      const tags = [...input.tags, ...fileTags];
 
-      pages = pages.concat(handlerComments(fileText, config, filePath, tags));
-      pages = pages.concat(handlerSwagger(fileText, config, filePath, tags));
-      pages = pages.concat(handlerOpenApi3(fileText, config, filePath, tags));
-      pages = pages.concat(handlerCollectHttp(fileText, config, filePath, tags));
-      pages = pages.concat(handlerMarkdown(fileText, config, filePath, tags));
+      pages = pages.concat(handlerComments(fileText, input, filePath, tags));
+      pages = pages.concat(handlerSwagger(fileText, input, filePath, tags));
+      pages = pages.concat(handlerOpenApi3(fileText, input, filePath, tags));
+      pages = pages.concat(handlerCollectHttp(fileText, input, filePath, tags));
+      pages = pages.concat(handlerMarkdown(fileText, input, filePath, tags));
     } catch (error: unknown) {
       if (error instanceof Error) {
         throw new CustomError(`Error reading filePath "${filePath}", error "${error}", stack=${error?.stack}`);

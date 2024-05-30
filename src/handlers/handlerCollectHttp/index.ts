@@ -1,10 +1,10 @@
-import { configFile } from '../../modules/readConfigFile';
+import { processHandlerType } from '../../modules/types';
 import { SchemaType } from '../../types';
 import { getBlockDocs } from './getBlockDocs';
 import { processDocBlock } from './processDocBlock';
 import { handlerNameCollectHttp } from './utils';
 
-export const handlerCollectHttp = (fileText: string, config: configFile, filePath: string, fileTags: string[]): SchemaType[] => {
+export const handlerCollectHttp = (fileText: string, config: processHandlerType, filePath: string, fileTags: string[]): SchemaType[] => {
   if (filePath.endsWith('.http') === false) {
     return [];
   }
@@ -24,7 +24,7 @@ export const handlerCollectHttp = (fileText: string, config: configFile, filePat
       warning: result.warning,
       tags: [...fileTags, ...result.tags],
       blocks: result.blocks,
-      originName: config.name,
+      originName: config.tags.join('.'),
       handlerName: handlerNameCollectHttp
     });
   });

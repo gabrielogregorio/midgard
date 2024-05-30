@@ -39,12 +39,14 @@ export type blocksType = pageDocsMd | swaggerRequestType;
 export type codeWithoutLanguageType = {
   type: 'code-without-language';
   file: string;
+  message: string;
   code: string[];
 };
 
 export type requestJsonWithoutHeader = {
   type: 'request-json-without-header';
   file: string;
+  message: string;
   code: string[];
 };
 

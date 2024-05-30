@@ -1,9 +1,10 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { handlerSwagger } from '.';
+import { processHandlerType } from '../../modules/types';
 
 const fileInput = './docs/adr/file.md';
 
-const mockContext = { context: 'example.tag', name: 'name' };
+const mockContext: processHandlerType = { tags: ['example', 'tag', 'name'], bannedPaths: [], directory: '', title: '' };
 
 const fileTags = ['name'];
 
@@ -46,7 +47,7 @@ describe('', () => {
             ]
           }
         ],
-        originName: 'name',
+        originName: 'example.tag.name',
         handlerName: 'process-swagger',
         errors: [],
         tags: ['name', 'swagger', 'endpoint', 'post', '/example/otherExample', 'Autogeracação'],
@@ -96,7 +97,7 @@ describe('', () => {
             ]
           }
         ],
-        originName: 'name',
+        originName: 'example.tag.name',
         handlerName: 'process-swagger',
         errors: [],
         tags: ['name', 'swagger', 'endpoint', 'post', '/example/otherExample', 'Autogeracação'],
@@ -179,7 +180,7 @@ describe('', () => {
     expect(resultEnd).toEqual([
       {
         tags: ['name', 'swagger', 'endpoint', 'post', '/example/endpoint/', 'ExampleTag'],
-        originName: 'name',
+        originName: 'example.tag.name',
         handlerName: 'process-swagger',
         blocks: [
           {
@@ -266,7 +267,7 @@ describe('', () => {
     expect(resultEnd).toEqual([
       {
         tags: ['name', 'swagger', 'endpoint', 'get', '/example/{param1}/example2/{param2}/example3/{param3}', 'exampleTag'],
-        originName: 'name',
+        originName: 'example.tag.name',
         handlerName: 'process-swagger',
         blocks: [
           {

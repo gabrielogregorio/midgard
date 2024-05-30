@@ -23,6 +23,16 @@ if (result) {
   lastSchema = result;
 }
 
+// const TIME_TO_SEARCH_DOCS_IN_MS = 10000;
+// if (process.env.NODE_ENV !== 'test') {
+//   setInterval(() => {
+//     const result2 = processSchema(CONFIG_FILE);
+//     if (result2) {
+//       lastSchema = result2;
+//     }
+//   }, TIME_TO_SEARCH_DOCS_IN_MS);
+// }
+
 app.get('/', (_req, res) => res.sendStatus(statusCode.SUCCESS));
 
 app.get('/schema', (_req, res) => res.json(lastSchema));

@@ -21,7 +21,7 @@ const responseExpected = {
         'tag1',
         'tag2'
       ],
-      originName: 'backend',
+      originName: 'combratec.squads.docbytest.backend',
       handlerName: 'process-swagger',
       errors: [],
       blocks: [
@@ -70,7 +70,7 @@ const responseExpected = {
           method: ''
         }
       ],
-      originName: 'bot',
+      originName: 'combratec.squads.marketing.bot',
       handlerName: 'collect-http'
     },
     {
@@ -111,7 +111,7 @@ const responseExpected = {
           method: 'GET'
         }
       ],
-      originName: 'bot',
+      originName: 'combratec.squads.marketing.bot',
       handlerName: 'collect-http'
     },
     {
@@ -120,7 +120,7 @@ const responseExpected = {
       errors: [],
       tags: ['combratec', 'squads', 'docbytest', 'frontend', 'env', 'e2e', 'frontend', 'example', 'md'],
       blocks: [{ type: 'md', subType: 'normal', markdown: '# This is a md file\n' }],
-      originName: 'frontend',
+      originName: 'combratec.squads.docbytest.frontend',
       handlerName: 'process-markdown'
     },
     {
@@ -133,14 +133,14 @@ const responseExpected = {
         { type: 'tag', subType: 'normal', markdown: 'tags: [ref1, ref2]' },
         { type: 'md', subType: 'normal', markdown: 'this is a body\n' }
       ],
-      originName: 'frontend',
+      originName: 'combratec.squads.docbytest.frontend',
       handlerName: 'process-markdown'
     }
   ],
   hierarchy: [
-    { tags: ['combratec', ' squads', 'docbytest', 'backend'], title: '🛢️ Backend' },
-    { tags: ['combratec', ' squads', 'marketing', 'bot'], title: '🤖 Bot' },
-    { tags: ['combratec', ' squads', 'docbytest', 'frontend'], title: '⭐ Frontend' }
+    { tags: ['combratec', 'squads', 'docbytest', 'backend'], title: '🛢️ Backend' },
+    { tags: ['combratec', 'squads', 'marketing', 'bot'], title: '🤖 Bot' },
+    { tags: ['combratec', 'squads', 'docbytest', 'frontend'], title: '⭐ Frontend' }
   ]
 };
 

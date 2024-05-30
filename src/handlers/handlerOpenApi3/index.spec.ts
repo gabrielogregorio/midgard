@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { OpenAPI3 } from 'openapi-typescript';
 import { handlerOpenApi3 } from './index';
+import { processHandlerType } from '../../modules/types';
 
 const example1: OpenAPI3 = {
   openapi: '3.0.0',
@@ -152,7 +153,7 @@ const example1: OpenAPI3 = {
   }
 };
 
-const config = { context: 'example.tag', name: 'name' };
+const config: processHandlerType = { tags: ['example', 'tag', 'name'], bannedPaths: [], directory: '', title: '' };
 const fileTags = ['docs', 'adr', 'file', 'http'];
 const filePath = 'examplefile.json';
 
@@ -211,7 +212,7 @@ describe('handlerOpenApi3', () => {
         ],
         errors: [],
         handlerName: 'open-api-3',
-        originName: 'name',
+        originName: 'example.tag.name',
         tags: ['docs', 'adr', 'file', 'http', 'tag1', 'tag2'],
         title: 'title docs post /endpointExample',
         warning: []
@@ -258,7 +259,7 @@ describe('handlerOpenApi3', () => {
         ],
         errors: [],
         handlerName: 'open-api-3',
-        originName: 'name',
+        originName: 'example.tag.name',
         tags: ['docs', 'adr', 'file', 'http', 'tag1'],
         title: 'title docs get /list',
         warning: []

@@ -1,10 +1,10 @@
-import { configFile } from '../../modules/readConfigFile';
+import { processHandlerType } from '../../modules/types';
 import { SchemaType } from '../../types';
 import { processMarkdown } from '../utils/processMarkdown/processMarkdown';
 
 const NAME = 'process-markdown';
 
-export const handlerMarkdown = (fileText: string, config: configFile, filePath: string, fileTags: string[]): SchemaType[] => {
+export const handlerMarkdown = (fileText: string, config: processHandlerType, filePath: string, fileTags: string[]): SchemaType[] => {
   if (!filePath.endsWith('.md') && !filePath.endsWith('.MD')) {
     return [];
   }
@@ -16,7 +16,7 @@ export const handlerMarkdown = (fileText: string, config: configFile, filePath: 
   return [
     {
       ...result,
-      originName: config.name,
+      originName: config.tags.join('.'),
       handlerName: NAME,
       tags: [...fileTags, ...tags]
     }

@@ -1,14 +1,15 @@
 import fs from 'fs';
 import { findImages } from './findImages';
-import { configFile } from '../../../modules/readConfigFile';
 import { findLocalFileReferences } from './findLocalFileReferences';
 import { extractDevBlocks } from './extractDevBlocks';
 import { extractTitle } from './extractTitle';
 import { extractTagsByBlock } from './extractTagsByBlock';
 import { codeWithoutLanguageType } from '../../../types';
 import { detectCodeWithoutLanguage } from './detectCodeWithoutLanguage';
+import { codeWithoutLanguage } from './utils';
+import { processHandlerType } from '../../../modules/types';
 
-export const processMarkdown = (contentOriginal: string, config: configFile, file: string) => {
+export const processMarkdown = (contentOriginal: string, config: processHandlerType, file: string) => {
   let content = contentOriginal;
 
   const errors: string[] = [];
@@ -50,6 +51,7 @@ export const processMarkdown = (contentOriginal: string, config: configFile, fil
         warning.push({
           code: resultLocal.map((line) => line.code),
           file,
+          message: codeWithoutLanguage,
           type: 'code-without-language'
         });
       }

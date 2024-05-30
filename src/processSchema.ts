@@ -17,7 +17,10 @@ export const processSchema = (configFile: string) => {
 
     return {
       schema: fullSchema,
-      hierarchy: config.hierarchy
+      hierarchy: config.projects.map((project) => ({
+        tags: project.tags,
+        title: project.title
+      }))
     };
   } catch (error) {
     if (error instanceof Error) {

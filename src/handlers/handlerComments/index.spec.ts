@@ -8,7 +8,12 @@ const fileTags = ['file'];
 
 describe('processComments', () => {
   it('processComments', () => {
-    const resultEnd = handlerComments(mainInput, { context: 'example.tag', name: 'name' }, 'file', fileTags);
+    const resultEnd = handlerComments(
+      mainInput,
+      { tags: ['example', 'tag', 'name'], bannedPaths: [], directory: '', title: '' },
+      'file',
+      fileTags
+    );
 
     expect(resultEnd).toEqual([
       {
@@ -16,7 +21,7 @@ describe('processComments', () => {
         title: 'TitleExample',
         errors: [],
         handlerName: 'process-comments',
-        originName: 'name',
+        originName: 'example.tag.name',
         blocks: [
           {
             markdown: '# TitleExample\nvalor1\nvalor2',

@@ -1,6 +1,8 @@
+import { codeWithoutLanguage } from './utils';
+
 const regex = /^\s*```(.*)\n([\s\S]{1,}?)```/gm;
 
-type detectCodeWithoutLanguageType = { type: 'code-without-language'; file: string; code: string };
+type detectCodeWithoutLanguageType = { type: 'code-without-language'; file: string; code: string , message: string};
 
 export const detectCodeWithoutLanguage = (text: string): detectCodeWithoutLanguageType[] => {
   const final: detectCodeWithoutLanguageType[] = [];
@@ -12,6 +14,7 @@ export const detectCodeWithoutLanguage = (text: string): detectCodeWithoutLangua
       final.push({
         type: 'code-without-language',
         file: '',
+        message: codeWithoutLanguage,
         code: match[0]
       });
     }

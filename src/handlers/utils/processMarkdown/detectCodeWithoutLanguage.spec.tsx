@@ -1,4 +1,5 @@
 import { detectCodeWithoutLanguage } from './detectCodeWithoutLanguage';
+import { codeWithoutLanguage } from './utils';
 
 const input = `
 \`\`\`ts
@@ -29,6 +30,7 @@ describe('', () => {
       {
         type: 'code-without-language',
         file: '',
+        message: codeWithoutLanguage,
         code: `\n\`\`\`\nother code\n\`\`\``
       }
     ]);

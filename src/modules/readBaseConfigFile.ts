@@ -7,16 +7,12 @@ import { configBase } from './types';
 const projectsSchema = z.object({
   bannedPaths: z.array(z.string()),
   directory: z.string(),
-});
-
-const hierarchySchema = z.object({
   tags: z.array(z.string()),
   title: z.string()
 });
 
 const ConfigSchema = z.object({
-  projects: z.array(projectsSchema),
-  hierarchy: z.array(hierarchySchema)
+  projects: z.array(projectsSchema)
 });
 
 export const readBaseConfigFile = (configFilePath: string): configBase => {

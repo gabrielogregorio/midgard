@@ -21,7 +21,11 @@ tags: [frontend, adr]
 
     const fileInput = './docs/adr/file.md';
 
-    const resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
+    const resultEnd = processMarkdown(
+      mainInput,
+      { title: '', tags: ['example', 'tag', 'name'], bannedPaths: [], directory: '' },
+      fileInput
+    );
 
     expect(resultEnd).toStrictEqual({
       blocks: [
@@ -72,7 +76,11 @@ with multiples lines
 
     const fileInput = './docs/adr/file.md';
 
-    const resultEnd = processMarkdown(mainInput, { context: 'example.tag', name: 'name' }, fileInput);
+    const resultEnd = processMarkdown(
+      mainInput,
+      { title: '', tags: ['example', 'tag', 'name'], bannedPaths: [], directory: '' },
+      fileInput
+    );
 
     expect(resultEnd).toStrictEqual({
       blocks: [
